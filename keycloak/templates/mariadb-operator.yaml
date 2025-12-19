@@ -1,5 +1,4 @@
-{{- if .Values.mariadbOperator.enabled }}
-{{- if not .Values.mariadbOperator.useExisting.enabled }}
+{{- if and .Values.mariadbOperator.enabled (not .Values.mariadbOperator.useExisting.enabled) .Release.IsInstall }}
 ---
 apiVersion: k8s.mariadb.com/v1alpha1
 kind: MariaDB
@@ -27,7 +26,6 @@ spec:
     allowPrivilegeEscalation: false
     capabilities:
       drop: ["ALL"]
-{{- end }}
 ---
 apiVersion: k8s.mariadb.com/v1alpha1
 kind: Database
