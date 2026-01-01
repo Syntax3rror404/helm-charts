@@ -75,6 +75,7 @@ kubectl delete ns mumble
 | `headlessService.enabled` | `true` | Create a headless Kubernetes service for Mumble |
 | `headlessService.annotations` | `{}` | Additional annotations for the headless service |
 | `headlessService.ports` | `[{ name: mumble-tcp, port: 64738, targetPort: 64738, protocol: TCP },{ name: mumble-udp, port: 64738, targetPort: 64738, protocol: UDP }]` | TCP and UDP ports for the headless service |
+| `hostNetwork` | `false` | Enable hostnetworking for the statefulset, useful if running on a home network for Bonjour support |
 
 ### Persistence Configuration
 

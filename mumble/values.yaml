@@ -83,6 +83,8 @@ resources: {}
   #   cpu: 50m
   #   memory: 64Mi
 
+hostNetwork: false
+
 nodeSelector: {}
 
 tolerations: []
