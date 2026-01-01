@@ -48,6 +48,18 @@ superuserPassword:
   generate: true
   length: 16
 
+certificate:
+  generate: false
+  existingSecret: ""
+  spec:
+    dnsNames: []
+      # dnsNames:
+      #   - mumble.example.com
+    issuerRef: {}
+      #   group: cert-manager.io
+      #   kind: ClusterIssuer
+      #   name: cluster-issuer-name
+
 resources: {}
   # limits:
   #   cpu: 100m

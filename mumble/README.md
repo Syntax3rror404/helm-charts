@@ -115,6 +115,14 @@ kubectl delete ns mumble
 |-----------|---------|-------------|
 | `customLabels` | `{}` | Additional labels for all resources |
 
+### Certification Generation
+
+| Parameter | Default | Description |
+|-----------|---------|-------------|
+| `certificate.generate` | `false` | Generate a certificate with cert-manager |
+| `certificate.spec.dnsNames` | `[]` | A list of DNS names to generate certificates for |
+| `certificate.spec.issuerRef` | `{}` | A cert-manager reference to the Issuer or ClusterIssuer to use |
+
 ## Configuration Examples
 
 ### Example 1: Basic Mumble Server with Persistence
@@ -198,6 +206,21 @@ persistence:
 
 service:
   type: NodePort
+```
+
+### Example 5: Using Cert Manager for generating certificates
+
+```yaml
+# myvalues.yaml
+certificate:
+  generate: true
+  spec:
+    issuerRef:
+      group: cert-manager.io
+      kind: ClusterIssuer
+      name: my-cluster-issuer
+    dnsNames:
+      - "foo.example.com"
 ```
 
 ### Network Ports

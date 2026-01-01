@@ -50,6 +50,12 @@ spec:
             - name: MUMBLE_CUSTOM_CONFIG_FILE
               value: {{ .Values.environment.customConfigFile | quote }}
             {{- end }}
+            {{- if .Values.certificate.generate }}
+            - name: MUMBLE_CONFIG_SSL_CERT
+              value: "/certs/tls.crt"
+            - name: MUMBLE_CONFIG_SSL_KEY
+              value: "/certs/tls.key"
+            {{- end }}
             - name: MUMBLE_SUPERUSER_PASSWORD
               valueFrom:
                 secretKeyRef:
@@ -58,6 +64,10 @@ spec:
           volumeMounts:
             - name: data
               mountPath: /data
+          {{- if .Values.certificate.generate }}
+            - name: certificate
+              mountPath: /certs
+          {{- end }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}
@@ -72,10 +82,17 @@ spec:
       tolerations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      {{- if not .Values.persistence.enabled }}
+      {{- if or (not .Values.persistence.enabled) (.Values.certificate.generate) }}
       volumes:
+        {{- if not .Values.persistence.enabled }}
         - name: data
           emptyDir: {}
+        {{- end }}
+        {{- if .Values.certificate.generate }}
+        - name: certificate
+          secret:
+            secretName: {{ include "mumble.fullname" . }}-crt
+        {{- end }}
       {{- end }}
   {{- if .Values.persistence.enabled }}
   volumeClaimTemplates:

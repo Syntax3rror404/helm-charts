@@ -1,0 +1,24 @@
+{{- if and .Values.certificate.generate }}
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: {{ include "mumble.fullname" . }}-crt
+  labels:
+    {{- include "mumble.labels" . | nindent 4 }}
+    {{- with .Values.customLabels }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+spec:
+  secretName: {{ include "mumble.fullname" . }}-crt
+  usages:
+    - digital signature
+    - key encipherment
+  {{- with .Values.certificate.spec.dnsNames }}
+  dnsNames:
+  {{- toYaml . | nindent 4 }}
+  {{- end }}
+  {{- with .Values.certificate.spec.issuerRef }}
+  issuerRef:
+  {{- toYaml . | nindent 4 }}
+  {{- end }}
+{{- end }}
