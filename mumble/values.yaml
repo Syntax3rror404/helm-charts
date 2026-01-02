@@ -10,8 +10,23 @@ customLabels: {}
   # app.kubernetes.io/part-of: mumble-cluster
 
 service:
+  enabled: true
   type: ClusterIP
   externalIPs: []
+  annotations: {}
+  ports:
+    - name: mumble-tcp
+      port: 64738
+      targetPort: 64738
+      protocol: TCP
+    - name: mumble-udp
+      port: 64738
+      targetPort: 64738
+      protocol: UDP
+
+headlessService:
+  enabled: true
+  annotations: {}
   ports:
     - name: mumble-tcp
       port: 64738
@@ -67,6 +82,8 @@ resources: {}
   # requests:
   #   cpu: 50m
   #   memory: 64Mi
+
+hostNetwork: false
 
 nodeSelector: {}
 

@@ -1,3 +1,4 @@
+{{- if .Values.service.enabled }}
 ---
 apiVersion: v1
 kind: Service
@@ -8,6 +9,10 @@ metadata:
     {{- with .Values.customLabels }}
     {{- toYaml . | nindent 4 }}
     {{- end }}
+  {{- with .Values.service.annotations }}
+  annotations:
+  {{- toYaml . | nindent 4 }}
+  {{- end }}
 spec:
   type: {{ .Values.service.type }}
   ports:
@@ -16,6 +21,9 @@ spec:
       port: {{ .port }}
       targetPort: {{ .targetPort }}
       protocol: {{ .protocol }}
+      {{- if .nodePort }}
+      nodePort: {{ .nodePort }}
+      {{- end }}
     {{- end }}
   selector:
     {{- include "mumble.selectorLabels" . | nindent 4 }}
@@ -23,6 +31,8 @@ spec:
   externalIPs:
     {{- toYaml .Values.service.externalIPs | nindent 4 }}
   {{- end }}
+{{- end }}
+{{- if .Values.headlessService.enabled }}
 ---
 apiVersion: v1
 kind: Service
@@ -33,14 +43,22 @@ metadata:
     {{- with .Values.customLabels }}
     {{- toYaml . | nindent 4 }}
     {{- end }}
+  {{- with .Values.headlessService.annotations }}
+  annotations:
+  {{- toYaml . | nindent 4 }}
+  {{- end }}
 spec:
   clusterIP: None
   ports:
-    {{- range .Values.service.ports }}
+    {{- range .Values.headlessService.ports }}
     - name: {{ .name }}
       port: {{ .port }}
       targetPort: {{ .targetPort }}
       protocol: {{ .protocol }}
+      {{- if .nodePort }}
+      nodePort: {{ .nodePort }}
+      {{- end }}
     {{- end }}
   selector:
     {{- include "mumble.selectorLabels" . | nindent 4 }}
+{{- end }}
