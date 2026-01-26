@@ -97,6 +97,9 @@ spec:
               value: "{{ .Values.snipeit.config.timezone }}"
             - name: APP_LOCALE
               value: "{{ .Values.snipeit.config.locale }}"
+            {{- with .Values.extraEnv }}
+            {{- toYaml . | nindent 12 }}
+            {{- end }}
           ports:
             - name: http
               containerPort: {{ .Values.service.port }}
