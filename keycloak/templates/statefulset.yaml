@@ -49,11 +49,15 @@ spec:
           env:
             # Database settings and credentials
             - name: KC_DB
-              value: mariadb
-
+              value: "{{ .Values.database.type }}"
+            {{- if .Values.mariadbOperator.enabled }}
             - name: KC_DB_URL
               value: "jdbc:mariadb://{{ if .Values.mariadbOperator.useExisting.enabled }}{{ .Values.mariadbOperator.useExisting.mariaDbRef }}-internal.{{ .Values.mariadbOperator.useExisting.namespace }}{{ else }}mariadb-{{ .Release.Name }}-internal.{{ .Release.Namespace }}{{ end }}.svc:3306/keycloak"
-
+            {{- end }}
+            {{- if not .Values.mariadbOperator.enabled }}
+            - name: KC_DB_URL
+              value: "{{ .Values.database.dbUrl }}"
+            {{- end }}
             - name: KC_DB_USERNAME
               valueFrom:
                 secretKeyRef:

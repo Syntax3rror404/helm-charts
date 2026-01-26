@@ -123,6 +123,7 @@ kubectl delete ns keycloak
 | `database.password` | `keycloakpass` | Database password |
 | `database.host` | `""` | Database host (auto-set with operator) |
 | `database.port` | `3306` | Database port |
+| `database.dbUrl` | `3306` | Database db url |
 
 ### Service Configuration
 

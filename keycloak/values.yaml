@@ -102,6 +102,7 @@ database:
   # Will be automacticaly set when db operator is used
   host: ""
   port: 3306
+  dbUrl: ""
 
 # Keycloak specific configuration
 keycloak:
