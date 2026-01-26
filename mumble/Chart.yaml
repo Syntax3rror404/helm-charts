@@ -6,7 +6,7 @@ home: https://github.com/Syntax3rror404/helm-charts
 icon: https://upload.wikimedia.org/wikipedia/commons/thumb/8/8f/Icons_mumble.svg/600px-Icons_mumble.svg.png
 
 type: application
-version: 1.0.0
+version: 1.0.1
 appVersion: "v1.5.857-0"
 
 keywords:
