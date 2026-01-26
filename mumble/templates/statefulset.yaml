@@ -94,6 +94,7 @@ spec:
             secretName: {{ include "mumble.fullname" . }}-crt
         {{- end }}
       {{- end }}
+      hostNetwork: {{ .Values.hostNetwork }}
   {{- if .Values.persistence.enabled }}
   volumeClaimTemplates:
     - metadata:

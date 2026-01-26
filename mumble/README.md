@@ -67,10 +67,15 @@ kubectl delete ns mumble
 | `image.repository` | `ghcr.io/mumble-voip/mumble-server` | Mumble container image |
 | `image.tag` | `v1.5.857-0` | Mumble version tag |
 | `image.pullPolicy` | `IfNotPresent` | Image pull policy |
+| `service.enabled` | `true` | Enable the service |
 | `service.type` | `ClusterIP` | Kubernetes service type |
 | `service.externalIPs` | `[]` | External IPs for the service |
-| `headlessService.type` | `ClusterIP` | Headless service type |
-| `headlessService.externalIPs` | `[]` | External IPs for headless service |
+| `service.annotations` | `{}` | Additional annotations for the service |
+| `service.ports` | `[{ name: mumble-tcp, port: 64738, targetPort: 64738, protocol: TCP },{ name: mumble-udp, port: 64738, targetPort: 64738, protocol: UDP }]` | TCP and UDP ports for the service |
+| `headlessService.enabled` | `true` | Create a headless Kubernetes service for Mumble |
+| `headlessService.annotations` | `{}` | Additional annotations for the headless service |
+| `headlessService.ports` | `[{ name: mumble-tcp, port: 64738, targetPort: 64738, protocol: TCP },{ name: mumble-udp, port: 64738, targetPort: 64738, protocol: UDP }]` | TCP and UDP ports for the headless service |
+| `hostNetwork` | `false` | Enable hostnetworking for the statefulset, useful if running on a home network for Bonjour support |
 
 ### Persistence Configuration
 
@@ -397,6 +402,24 @@ Access via any node IP on a high port:
 ```yaml
 service:
   type: NodePort
+```
+
+Or on a specific node port:
+
+```yaml
+service:
+  type: NodePort
+  ports:
+    - name: mumble-tcp
+      port: 64738
+      targetPort: 64738
+      protocol: TCP
+      nodePort: 32001
+    - name: mumble-udp
+      port: 64738
+      targetPort: 64738
+      protocol: UDP
+      nodePort: 32001
 ```
 
 ### External IPs
