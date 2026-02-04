@@ -110,6 +110,10 @@ spec:
             - name: KC_CACHE_EMBEDDED_NETWORK_BIND_ADDRESS
               value: '$(POD_IP)'
 
+            # Relative http path for serving kc
+            - name: KC_HTTP_RELATIVE_PATH
+              value: "{{ .Values.keycloak.httpPath }}"
+
           ports:
             - name: http
               containerPort: {{ .Values.service.port }}
