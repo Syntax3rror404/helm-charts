@@ -94,11 +94,12 @@ kubectl delete ns keycloak
 
 ### Keycloak Configuration
 
-| Parameter | Default | Description |
-|-----------|---------|-------------|
-| `keycloak.proxy.headers` | `xforwarded` | Proxy headers mode (xforwarded, forwarded) |
-| `keycloak.hostname.strict` | `false` | Enable strict hostname verification |
-| `keycloak.cache.type` | `ispn` | Cache type (ispn for clustering, local for single node) |
+| Parameter                  | Default      | Description                                             |
+|----------------------------|--------------|---------------------------------------------------------|
+| `keycloak.proxy.headers`   | `xforwarded` | Proxy headers mode (xforwarded, forwarded)              |
+| `keycloak.hostname.strict` | `false`      | Enable strict hostname verification                     |
+| `keycloak.cache.type`      | `ispn`       | Cache type (ispn for clustering, local for single node) |
+| `keycloak.args`            | `[start]`    | Start args for kubernetes container                     |
 
 ### Database Configuration - MariaDB Operator
 
