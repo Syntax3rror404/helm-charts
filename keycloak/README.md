@@ -99,6 +99,8 @@ kubectl delete ns keycloak
 | `keycloak.proxy.headers` | `xforwarded` | Proxy headers mode (xforwarded, forwarded) |
 | `keycloak.hostname.strict` | `false` | Enable strict hostname verification |
 | `keycloak.cache.type` | `ispn` | Cache type (ispn for clustering, local for single node) |
+| `keycloak.args` | `["start"]` | Keycloak args list |
+| `keycloak.httpPath` | `"/"` | Keycloak used http path |
 
 ### Database Configuration - MariaDB Operator
 
