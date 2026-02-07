@@ -150,6 +150,20 @@ ingress:
   #    hosts:
   #      - chart-example.local
 
+httpRoute:
+  enabled: false
+  hostnames:
+    - snipeit.example.com
+  parentRefs:
+    - group: gateway.networking.k8s.io
+      kind: Gateway
+      name: envoy-gateway-external
+      namespace: envoy-gateway-system
+  matches:
+    - path:
+        type: PathPrefix
+        value: /
+
 jobs:
   kubectl:
     repository: docker.io/alpine/kubectl
