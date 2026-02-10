@@ -1,0 +1,17 @@
+{{- if and .Values.themes.enabled (not .Values.themes.existingClaim) }}
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ include "keycloak.fullname" . }}-themes
+  labels:
+    {{- include "keycloak.labels" . | nindent 4 }}
+spec:
+  accessModes:
+    - {{ .Values.themes.persistence.accessMode }}
+  {{- if .Values.themes.persistence.storageClass }}
+  storageClassName: {{ .Values.themes.persistence.storageClass }}
+  {{- end }}
+  resources:
+    requests:
+      storage: {{ .Values.themes.persistence.size }}
+{{- end }}

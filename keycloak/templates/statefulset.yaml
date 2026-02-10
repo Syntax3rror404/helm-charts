@@ -140,6 +140,40 @@ spec:
             {{- toYaml . | nindent 12 }}
             {{- end }}
 
+            {{- if .Values.themes.enabled }}
+            - name: themes
+              mountPath: /opt/keycloak/themes
+            {{- end }}
+            {{- with .Values.volumeMounts }}
+            {{- toYaml . | nindent 12 }}
+            {{- end }}
+
+        {{- if and .Values.themes.enabled .Values.themes.sidecar.enabled }}
+        - name: theme-manager
+          image: {{ .Values.themes.sidecar.image }}
+          imagePullPolicy: {{ .Values.themes.sidecar.pullPolicy }}
+          command:
+            - sh
+            - -c
+            - |
+              echo "Theme manager sidecar started"
+              echo "Themes volume mounted at /themes"
+              echo "Use: kubectl cp <local-path> <namespace>/<pod-name>:/themes -c theme-manager"
+              # Keep container running
+              tail -f /dev/null
+          volumeMounts:
+            - name: themes
+              mountPath: /themes
+          {{- with .Values.themes.sidecar.resources }}
+          resources:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with .Values.themes.sidecar.securityContext }}
+          securityContext:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+        {{- end }}
+
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
@@ -155,4 +189,13 @@ spec:
       volumes:
         {{- with .Values.volumes }}
         {{- toYaml . | nindent 8 }}
+        {{- end }}
+
+        {{- if .Values.themes.enabled }}
+        - name: themes
+          persistentVolumeClaim:
+            claimName: {{ if .Values.themes.existingClaim }}{{ .Values.themes.existingClaim }}{{ else }}{{ include "keycloak.fullname" . }}-themes{{ end }}
+        {{- with .Values.volumes }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
         {{- end }}

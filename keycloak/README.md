@@ -6,6 +6,8 @@
 
 This Helm chart deploys Keycloak on Kubernetes using the official Keycloak container image from quay.io/keycloak/keycloak.
 
+It also provides a sidecar container for easyer managing custom keycloak themes.
+
 ### Database Options
 
 The chart supports two database configuration methods:
@@ -25,6 +27,7 @@ helm install mariadb-operator mariadb-operator/mariadb-operator
 ### Key Features
 
 - Official Keycloak image from Quay.io
+- Custom theme support with sidecar container support to provide easyer theme installations
 - Automatic admin credentials management via Kubernetes secrets
 - Supports both new MariaDB instances and existing MariaDB deployments managed by the operator
 - StatefulSet deployment for clustering and data consistency
@@ -101,6 +104,27 @@ kubectl delete ns keycloak
 | `keycloak.cache.type` | `ispn` | Cache type (ispn for clustering, local for single node) |
 | `keycloak.args` | `["start"]` | Keycloak args list |
 | `keycloak.httpPath` | `"/"` | Keycloak used http path |
+
+### Themes Configuration
+
+This sidecar container allows you to manage keycloak themes e.g to use kubectl cp to copy a theme to the theme volume, because the keycloak container does not contain any binaries like tar etc.
+
+After the theme installation you can disable the sidecar afterwards.
+
+The volume is mounted to /themes.
+
+After the installation of the theme you can enable the theme inside the realm settings.
+
+| Parameter | Default | Description |
+|-----------|---------|-------------|
+| `themes.enabled` | `false` | Enable themes support |
+| `themes.persistence.storageClass` | `` | Storage Class for storing themes |
+| `themes.persistence.accessMode` | `ReadWriteMany` | Enable themes support |
+| `themes.persistence.size` | `1Gi` | Size of themes volume |
+| `themes.existingClaim` | `` | Use existing volume instead of creating new pvc |
+| `themes.sidecar.enabled` | `false` | Start sidecar container inside keycloak pod for easyer theme management |
+| `themes.sidecar.resources` | see values.yaml for defaults | Limit ressources for sidecar container |
+| `themes.sidecar.securityContext` | `{}`  | Security context of sidecar container |
 
 ### Database Configuration - MariaDB Operator
 

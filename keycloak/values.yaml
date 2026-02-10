@@ -104,6 +104,37 @@ database:
   port: 3306
   dbUrl: ""
 
+# Custom themes configuration
+themes:
+  # Enable custom themes
+  enabled: false
+  
+  # Persistence for themes
+  persistence:
+    storageClass: ""  # leave empty for default
+    accessMode: ReadWriteMany  # RWX needed for multiple replicas
+    size: 1Gi
+  
+  # Alternative: Use existing PVC
+  existingClaim: ""
+
+  # Sidecar container for easy theme management
+  sidecar:
+    enabled: false
+    image: alpine:latest
+    pullPolicy: IfNotPresent
+    resources:
+      limits:
+        cpu: 50m
+        memory: 64Mi
+      requests:
+        cpu: 10m
+        memory: 32Mi
+    securityContext: {}
+      # runAsNonRoot: true
+      # runAsUser: 1000
+      # allowPrivilegeEscalation: false
+
 # Keycloak specific configuration
 keycloak:
 
@@ -171,3 +202,4 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
+
