@@ -123,6 +123,8 @@ After the installation of the theme you can enable the theme inside the realm se
 | `themes.persistence.size` | `1Gi` | Size of themes volume |
 | `themes.existingClaim` | `` | Use existing volume instead of creating new pvc |
 | `themes.sidecar.enabled` | `false` | Start sidecar container inside keycloak pod for easyer theme management |
+| `themes.sidecar.image` | `alpine:latest` | Image of sidecar container |
+| `themes.sidecar.pullPolicy` | `IfNotPresent` | Image of sidecar container |
 | `themes.sidecar.resources` | see values.yaml for defaults | Limit ressources for sidecar container |
 | `themes.sidecar.securityContext` | `{}`  | Security context of sidecar container |
 
