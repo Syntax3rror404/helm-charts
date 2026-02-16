@@ -7,7 +7,7 @@ icon: https://commons.wikimedia.org/wiki/File:Keycloak_Logo.png
 
 type: application
 
-version: 0.2.2
+version: 0.2.3
 
 keywords:
 - keycloak
@@ -16,4 +16,4 @@ keywords:
 - Identity provider
 - IAM
 
-appVersion: "26.5.2"
+appVersion: "26.5.3"
