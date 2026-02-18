@@ -89,7 +89,7 @@ kubectl delete ns keycloak
 |-----------|---------|-------------|
 | `replicaCount` | `1` | Number of Keycloak replicas (use >1 for clustering) |
 | `image.repository` | `quay.io/keycloak/keycloak` | Official Keycloak container image |
-| `image.tag` | `26.4.7` | Keycloak version |
+| `image.tag` | see values.yaml for value | Keycloak version |
 | `image.pullPolicy` | `IfNotPresent` | Image pull policy |
 | `admin.username` | `admin` | Keycloak admin username |
 | `admin.password` | `admin` | Keycloak admin password (change in production!) |
@@ -220,6 +220,20 @@ ingress:
     - secretName: keycloak-tls
       hosts:
         - auth.mycompany.com
+
+podSecurityContext:
+  runAsNonRoot: true
+  runAsUser: 1000
+  runAsGroup: 1000
+  fsGroup: 1000
+  seccompProfile:
+    type: RuntimeDefault
+
+securityContext:
+  allowPrivilegeEscalation: false
+  capabilities:
+    drop:
+      - ALL
 ```
 
 ### Example 2: Clustered Setup with Existing MariaDB
@@ -274,6 +288,20 @@ resources:
   requests:
     cpu: 500m
     memory: 1Gi
+
+podSecurityContext:
+  runAsNonRoot: true
+  runAsUser: 1000
+  runAsGroup: 1000
+  fsGroup: 1000
+  seccompProfile:
+    type: RuntimeDefault
+
+securityContext:
+  allowPrivilegeEscalation: false
+  capabilities:
+    drop:
+      - ALL
 ```
 
 ### Example 3: External PostgreSQL Database
@@ -309,6 +337,21 @@ ingress:
       paths:
         - path: /
           pathType: Prefix
+
+podSecurityContext:
+  runAsNonRoot: true
+  runAsUser: 1000
+  runAsGroup: 1000
+  fsGroup: 1000
+  seccompProfile:
+    type: RuntimeDefault
+
+securityContext:
+  allowPrivilegeEscalation: false
+  capabilities:
+    drop:
+      - ALL
+
 ```
 
 ### Example 4: Development Setup
