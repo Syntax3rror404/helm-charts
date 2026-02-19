@@ -21,6 +21,7 @@ helm install mariadb-operator mariadb-operator/mariadb-operator
 
 ### Key Features
 
+- Secure by default with security context and non root user
 - TeamSpeak 3 Server with persistent storage
 - MariaDB database backend via MariaDB Operator
 - Supports both new MariaDB instances and existing MariaDB deployments

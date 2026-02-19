@@ -6,7 +6,7 @@ home: https://github.com/Syntax3rror404/helm-charts
 icon: https://upload.wikimedia.org/wikipedia/commons/e/ec/TeamSpeak_logo_renovado.png
 
 type: application
-version: 1.0.3
+version: 1.0.4
 appVersion: 3.13.7
 
 keywords:
