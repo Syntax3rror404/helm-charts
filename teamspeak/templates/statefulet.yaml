@@ -1,4 +1,3 @@
----
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
@@ -19,10 +18,12 @@ spec:
       labels:
         {{- include "teamspeak.selectorLabels" . | nindent 8 }}
     spec:
+      # Pod security context – applies to all containers in the pod
       securityContext:
         {{- toYaml .Values.teamspeak.podSecurityContext | nindent 8 }}
       containers:
         - name: teamspeak-server
+          # Container-specific security context
           securityContext:
             {{- toYaml .Values.teamspeak.containerSecurityContext | nindent 12 }}
           image: "{{ .Values.teamspeak.image }}:{{ .Values.teamspeak.tag }}"
@@ -40,7 +41,6 @@ spec:
               value: "ts3db_mariadb"
             - name: TS3SERVER_DB_SQLCREATEPATH
               value: "create_mariadb"
-              # host = servicename.namespace.svc
             - name: TS3SERVER_DB_HOST
               value: "{{ .Values.mariadbOperator.useExisting.mariaDbRef }}-internal.{{ .Values.mariadbOperator.useExisting.namespace }}.svc"
             - name: TS3SERVER_DB_USER
@@ -54,8 +54,21 @@ spec:
           volumeMounts:
             - name: data
               mountPath: /var/ts3server
+            # Additional volume for the runtime directory (fixes permission issue)
+            - name: run-ts3server
+              mountPath: /var/run/ts3server
           resources:
             {{- toYaml .Values.teamspeak.resources | nindent 12 }}
+      volumes:
+        # Always provide an emptyDir for /var/run/ts3server
+        - name: run-ts3server
+          emptyDir: {}
+        # Data volume is only defined as emptyDir if persistence is disabled
+        # (otherwise it comes from volumeClaimTemplates)
+        {{- if not .Values.teamspeak.persistence.enabled }}
+        - name: data
+          emptyDir: {}
+        {{- end }}
   {{- if .Values.teamspeak.persistence.enabled }}
   volumeClaimTemplates:
     - metadata:
@@ -74,8 +87,4 @@ spec:
         resources:
           requests:
             storage: {{ .Values.teamspeak.persistence.size | quote }}
-  {{- else }}
-      volumes:
-        - name: data
-          emptyDir: {}
   {{- end }}
