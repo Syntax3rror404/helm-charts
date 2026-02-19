@@ -9,7 +9,7 @@ teamspeak:
       - 10011
       - 30033
 
-  podSecurityContext: {}
+  podSecurityContext: 
    # fsGroup: 1000
    # runAsUser: 1000
    # runAsNonRoot: true
@@ -19,7 +19,8 @@ teamspeak:
    # capabilities:
    #   drop: ["ALL"]
    # readOnlyRootFilesystem: false
-
+   # seccompProfile:
+   #   type: RuntimeDefault
   persistence:
     enabled: true
     size: 1Gi
