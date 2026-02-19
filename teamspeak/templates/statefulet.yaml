@@ -19,8 +19,12 @@ spec:
       labels:
         {{- include "teamspeak.selectorLabels" . | nindent 8 }}
     spec:
+      securityContext:
+        {{- toYaml .Values.teamspeak.podSecurityContext | nindent 8 }}
       containers:
         - name: teamspeak-server
+          securityContext:
+            {{- toYaml .Values.teamspeak.containerSecurityContext | nindent 12 }}
           image: "{{ .Values.teamspeak.image }}:{{ .Values.teamspeak.tag }}"
           ports:
             - containerPort: {{ .Values.teamspeak.ports.udp }}

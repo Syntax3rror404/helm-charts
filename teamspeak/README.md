@@ -88,6 +88,8 @@ kubectl delete ns teamspeak
 | `teamspeak.persistence.size` | `1Gi` | Persistent volume size |
 | `teamspeak.persistence.storageClass` | `""` | Storage class for PVC |
 | `teamspeak.resources` | `{}` | Resource limits and requests |
+| `teamspeak.podSecurityContext` | `{}` | Pod security |
+| `teamspeak.containerSecurityContext` | `{}` | Container security |
 
 ### Database Configuration - MariaDB Operator
 
