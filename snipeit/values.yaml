@@ -124,15 +124,18 @@ podAnnotations: {}
 # For more information checkout: https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/
 podLabels: {}
 
-podSecurityContext: {}
-  # fsGroup: 101
-securityContext: {}
-  # runAsNonRoot: true
-  # allowPrivilegeEscalation: false
-  # runAsUser: 100
-  # runAsGroup: 101
-  # seccompProfile:
-  #   type: RuntimeDefault
+podSecurityContext: 
+  runAsUser: 100
+  runAsGroup: 101
+  fsGroup: 101
+  fsGroupChangePolicy: "Always"
+  runAsNonRoot: true
+  seccompProfile:
+    type: RuntimeDefault
+securityContext: 
+  allowPrivilegeEscalation: false
+  capabilities:
+    drop: ["ALL"]
 
 service:
   type: ClusterIP

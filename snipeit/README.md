@@ -4,7 +4,7 @@
 
 ## Introduction
 
-This Helm chart deploys Snipe-IT on Kubernetes using the official Snipe-IT container image.
+This Helm chart deploys Snipe-IT on Kubernetes using the official Snipe-IT container image. It is secured by default with pod / security context.
 
 ### Database Options
 

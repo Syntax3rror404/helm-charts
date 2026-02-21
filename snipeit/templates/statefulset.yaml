@@ -37,14 +37,6 @@ spec:
       securityContext:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      initContainers:
-        - name: set-session-permission
-          image: docker.io/alpine:latest
-          command: ["sh", "-c", "chown -R 100:101 /var/www/html/storage/framework/sessions"]
-          {{- with .Values.volumeMounts }}
-          volumeMounts:
-            {{- toYaml . | nindent 12 }}
-          {{- end }}
       containers:
         - name: {{ .Chart.Name }}
           {{- with .Values.securityContext }}
