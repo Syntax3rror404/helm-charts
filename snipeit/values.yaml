@@ -95,7 +95,7 @@ externalDB:
 # snipeit config
 snipeit:
   entrypointOverride:
-    enabled: false
+    enabled: true
   config:
     appKey:
       name: laravel-app-key
