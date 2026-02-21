@@ -121,6 +121,8 @@ spec:
             {{- toYaml . | nindent 12 }}
           {{- end }}
           volumeMounts:
+            - mountPath: /var/www/logs
+              name: logs
             {{- with .Values.volumeMounts }}
             {{- toYaml . | nindent 12 }}
             {{- end }}
@@ -142,6 +144,8 @@ spec:
       {{- end }}
       {{- if .Values.snipeit.entrypointOverride.enabled }}
       volumes:
+        - emptyDir: {}
+          name: logs
         - name: custom-startup
           configMap:
             name: {{ include "snipeit.fullname" . }}-entrypoint-override

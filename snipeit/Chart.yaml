@@ -6,7 +6,7 @@ home: https://github.com/Syntax3rror404/helm-charts
 icon: https://github.com/snipe/snipe-it/blob/eb9cfbaed6fc830e9b114c625896a636842f2d1a/public/img/demo/snipe-logo-bug.png?raw=true
 
 type: application
-version: 2.1.6
+version: 2.1.7
 appVersion: "8.3.7"
 
 keywords:
