@@ -144,7 +144,7 @@ spec:
       volumes:
         - name: custom-startup
           configMap:
-            name: {{ include "snipeit.fullname" . }}-startup
+            name: {{ include "snipeit.fullname" . }}-entrypoint-override
             defaultMode: 0755
       {{- end }}
   volumeClaimTemplates:
