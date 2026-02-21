@@ -53,6 +53,10 @@ spec:
           {{- end }}
           image: "{{ .Values.snipeit.image.repository }}:{{ .Values.snipeit.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.snipeit.image.pullPolicy }}
+          {{- if .Values.snipeit.entrypointOverride.enabled }}
+          command: ["/sbin/tini", "--"]
+          args: ["/custom-startup/startup.sh"]
+          {{- end }}
           env:
             {{- if and .Values.externalDB.enabled .Values.mariadbOperator.enabled }}
             {{- fail "You have enabled BOTH .Values.externalDB.enabled and .Values.mariadbOperator.enabled. That is wrong. Please choose one or the other." }}
@@ -120,6 +124,10 @@ spec:
             {{- with .Values.volumeMounts }}
             {{- toYaml . | nindent 12 }}
             {{- end }}
+            {{- if .Values.snipeit.entrypointOverride.enabled }}
+            - name: custom-startup
+              mountPath: /custom-startup
+            {{- end }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
@@ -131,6 +139,13 @@ spec:
       {{- with .Values.tolerations }}
       tolerations:
         {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- if .Values.snipeit.entrypointOverride.enabled }}
+      volumes:
+        - name: custom-startup
+          configMap:
+            name: {{ include "snipeit.fullname" . }}-startup
+            defaultMode: 0755
       {{- end }}
   volumeClaimTemplates:
     - metadata:
