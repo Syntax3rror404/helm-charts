@@ -30,8 +30,52 @@ spec:
       # ── Init Containers ────────────────────────────────────────────
       initContainers:
 
-{{- if .Values.neoforge.enabled }}
-        # NeoForge: Installer herunterladen & ausführen (Sentinel: run.sh)
+        {{- if .Values.neoforge.enabled }}
+        # NeoForge 1/2: Download
+        - name: download-neoforge-installer
+          image: "{{ .Values.initContainer.image.repository }}:{{ .Values.initContainer.image.tag }}"
+          imagePullPolicy: {{ .Values.initContainer.image.pullPolicy }}
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 1000
+            runAsGroup: 1000
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop:
+                - ALL
+          resources:
+            {{- toYaml .Values.initContainer.resources | nindent 12 }}
+          env:
+            - name: NEOFORGE_VERSION
+              value: {{ .Values.neoforge.version | quote }}
+            - name: INSTALLER_URL
+              value: {{ include "minecraft.neoforgeInstallerUrl" . | quote }}
+          command:
+            - /bin/sh
+            - -c
+            - |
+              set -eu
+              SENTINEL="/data/run.sh"
+              INSTALLER_JAR="/data/neoforge-installer.jar"
+
+              if [ -f "${SENTINEL}" ]; then
+                echo "==> NeoForge ${NEOFORGE_VERSION} already installed, skipping download."
+              else
+                echo "==> Downloading NeoForge ${NEOFORGE_VERSION} installer..."
+                curl \
+                  --silent --show-error --fail --location \
+                  --retry 5 --retry-delay 5 \
+                  --connect-timeout 30 --max-time 300 \
+                  --output "${INSTALLER_JAR}" \
+                  "${INSTALLER_URL}"
+                echo "==> Download complete. SHA256: $(sha256sum ${INSTALLER_JAR})"
+              fi
+          volumeMounts:
+            - name: data
+              mountPath: /data
+
+        # NeoForge 2/2: Install
         - name: install-neoforge
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
@@ -54,8 +98,6 @@ spec:
           env:
             - name: NEOFORGE_VERSION
               value: {{ .Values.neoforge.version | quote }}
-            - name: INSTALLER_URL
-              value: {{ include "minecraft.neoforgeInstallerUrl" . | quote }}
           command:
             - /bin/sh
             - -c
@@ -68,14 +110,7 @@ spec:
               if [ -f "${SENTINEL}" ]; then
                 echo "==> NeoForge ${NEOFORGE_VERSION} already installed (run.sh present), skipping."
               else
-                echo "==> NeoForge ${NEOFORGE_VERSION} not found – downloading installer..."
-                curl \
-                  --silent --show-error --fail --location \
-                  --retry 5 --retry-delay 5 \
-                  --connect-timeout 30 --max-time 300 \
-                  --output "${INSTALLER_JAR}" \
-                  "${INSTALLER_URL}"
-                echo "==> Installer downloaded. SHA256: $(sha256sum ${INSTALLER_JAR})"
+                echo "==> Running NeoForge installer..."
                 cd "${DATA_DIR}"
                 java -jar "${INSTALLER_JAR}" --installServer . 2>&1
                 rm -f "${INSTALLER_JAR}"
