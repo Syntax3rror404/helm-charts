@@ -25,6 +25,7 @@ minecraft:
     onlineMode: "true"
     spawnProtection: "16"
     enableCommandBlock: "false"
+    levelName: "world"
 
 neoforge:
   enabled: false

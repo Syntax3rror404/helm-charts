@@ -21,6 +21,7 @@ data:
     spawn-protection={{ .Values.minecraft.serverProperties.spawnProtection }}
     enable-command-block={{ .Values.minecraft.serverProperties.enableCommandBlock }}
     server-port=25565
+    level-name={{ .Values.minecraft.serverProperties.levelName }}
     {{- if .Values.rcon.enabled }}
     enable-rcon=true
     rcon.port={{ .Values.rcon.port }}
