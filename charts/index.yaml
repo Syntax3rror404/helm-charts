@@ -3,7 +3,7 @@ entries:
   keycloak:
   - apiVersion: v2
     appVersion: 26.5.3
-    created: "2026-02-23T03:54:04.984316+01:00"
+    created: "2026-02-23T04:28:09.637974+01:00"
     description: A Helm chart for Kubernetes which provides keycloak
     digest: 9affd1a99062ff67cfe72c56c82d25891a83acedf591b87010257cfe088c3b6d
     home: https://github.com/Syntax3rror404/helm-charts
@@ -21,7 +21,7 @@ entries:
     version: 0.2.3
   - apiVersion: v2
     appVersion: 26.5.2
-    created: "2026-02-23T03:54:04.983993+01:00"
+    created: "2026-02-23T04:28:09.637602+01:00"
     description: A Helm chart for Kubernetes which provides keycloak
     digest: 2a4a8c976979ef8c37478d55ea92e6f6e3e1f93c7d2d87029a6b0945e977d400
     home: https://github.com/Syntax3rror404/helm-charts
@@ -39,7 +39,7 @@ entries:
     version: 0.2.2
   - apiVersion: v2
     appVersion: 26.5.2
-    created: "2026-02-23T03:54:04.983664+01:00"
+    created: "2026-02-23T04:28:09.637229+01:00"
     description: A Helm chart for Kubernetes which provides keycloak
     digest: 10355e5d03ddf4a0a6ab0a5f3f105ca9f3289ca2d067dfac762666095211edf3
     home: https://github.com/Syntax3rror404/helm-charts
@@ -57,7 +57,7 @@ entries:
     version: 0.1.6
   - apiVersion: v2
     appVersion: 26.5.2
-    created: "2026-02-23T03:54:04.983373+01:00"
+    created: "2026-02-23T04:28:09.636905+01:00"
     description: A Helm chart for Kubernetes which provides keycloak
     digest: 87ab9a9df2b0704abebdfd78d34ae073eb9d87a233ad945061f86c3b23ba5e9a
     home: https://github.com/Syntax3rror404/helm-charts
@@ -75,7 +75,7 @@ entries:
     version: 0.1.5
   - apiVersion: v2
     appVersion: 26.5.2
-    created: "2026-02-23T03:54:04.983056+01:00"
+    created: "2026-02-23T04:28:09.636575+01:00"
     description: A Helm chart for Kubernetes which provides keycloak
     digest: e0ffe3b3736ee9ee863ded5c10747ec8f023f35f7a8024ecfbdd68216d4b7fc5
     home: https://github.com/Syntax3rror404/helm-charts
@@ -93,7 +93,7 @@ entries:
     version: 0.1.4
   - apiVersion: v2
     appVersion: 26.5.2
-    created: "2026-02-23T03:54:04.982697+01:00"
+    created: "2026-02-23T04:28:09.636235+01:00"
     description: A Helm chart for Kubernetes which provides keycloak
     digest: 6dd5a622afd20f9fcdf30cb4ce0395ca597cb1658ce84214c360e126beb0cde1
     home: https://github.com/Syntax3rror404/helm-charts
@@ -111,7 +111,7 @@ entries:
     version: 0.1.3
   - apiVersion: v2
     appVersion: 26.5.2
-    created: "2026-02-23T03:54:04.982097+01:00"
+    created: "2026-02-23T04:28:09.635892+01:00"
     description: A Helm chart for Kubernetes which provides keycloak
     digest: b941ad6e9f2767995bc2cc6f18d8a91481b3bac0fb4ec051ca1e0bc089f11e80
     home: https://github.com/Syntax3rror404/helm-charts
@@ -129,7 +129,7 @@ entries:
     version: 0.1.2
   - apiVersion: v2
     appVersion: 26.4.7
-    created: "2026-02-23T03:54:04.981773+01:00"
+    created: "2026-02-23T04:28:09.635495+01:00"
     description: A Helm chart for Kubernetes which provides keycloak
     digest: 30fe3dbd05ebc861458ecceb8f29b6d436f25287e4b7ddbcd25febf411f37f02
     home: https://github.com/Syntax3rror404/helm-charts
@@ -147,7 +147,7 @@ entries:
     version: 0.1.1
   - apiVersion: v2
     appVersion: 26.4.7
-    created: "2026-02-23T03:54:04.981429+01:00"
+    created: "2026-02-23T04:28:09.63503+01:00"
     description: A Helm chart for Kubernetes which provides keycloak
     digest: 7f3a6b590c76aba11bf778183b3afd98f447d1933c61f5f16d7deb044d240a2f
     home: https://github.com/Syntax3rror404/helm-charts
@@ -166,7 +166,23 @@ entries:
   minecraft:
   - apiVersion: v2
     appVersion: 1.21.1
-    created: "2026-02-23T03:54:04.987433+01:00"
+    created: "2026-02-23T04:28:09.642122+01:00"
+    description: A Helm chart for a Minecraft Java Edition Server on Kubernetes
+    digest: 1d12db31cf82aa6f8bf8cc4ad0c3fcfeff28dd26655e8f8e377213ee14499761
+    keywords:
+    - minecraft
+    - java
+    - game-server
+    - modded
+    - neoforge
+    name: minecraft
+    type: application
+    urls:
+    - minecraft-1.1.2.tgz
+    version: 1.1.2
+  - apiVersion: v2
+    appVersion: 1.21.1
+    created: "2026-02-23T04:28:09.641852+01:00"
     description: A Helm chart for a Minecraft Java Edition Server on Kubernetes
     digest: 99ae190d20b79b385681dae81f38b234f281213fcff5d281ef3fd3971087af97
     keywords:
@@ -180,7 +196,7 @@ entries:
     version: 1.1.1
   - apiVersion: v2
     appVersion: 1.21.1
-    created: "2026-02-23T03:54:04.987188+01:00"
+    created: "2026-02-23T04:28:09.641569+01:00"
     description: A Helm chart for a Minecraft Java Edition Server on Kubernetes
     digest: 94ea2aff59307d8324ac8e95784544a2021d149f175d66c9121f8ad3895f7df9
     keywords:
@@ -194,7 +210,7 @@ entries:
     version: 1.1.0
   - apiVersion: v2
     appVersion: 1.21.1
-    created: "2026-02-23T03:54:04.98695+01:00"
+    created: "2026-02-23T04:28:09.641285+01:00"
     description: A Helm chart for a Minecraft Java Edition Server on Kubernetes
     digest: e5641ac4303da74308f826c158e81f778d2d99eee35e6b971f9e82dde7ed129e
     keywords:
@@ -208,7 +224,7 @@ entries:
     version: 1.0.9
   - apiVersion: v2
     appVersion: 1.21.1
-    created: "2026-02-23T03:54:04.986723+01:00"
+    created: "2026-02-23T04:28:09.640998+01:00"
     description: A Helm chart for a Minecraft Java Edition Server on Kubernetes
     digest: 1ec541b4930c93fb0b574ad6f104a67c4d896cbb75b4aa5b90be2b49b03474a2
     keywords:
@@ -222,7 +238,7 @@ entries:
     version: 1.0.8
   - apiVersion: v2
     appVersion: 1.21.1
-    created: "2026-02-23T03:54:04.986498+01:00"
+    created: "2026-02-23T04:28:09.640707+01:00"
     description: A Helm chart for a Minecraft Java Edition Server on Kubernetes
     digest: 802c81f58f46f9a73b44d0a8899364e3be24fe967f0f2c36e8740d20c12c17e1
     keywords:
@@ -236,7 +252,7 @@ entries:
     version: 1.0.7
   - apiVersion: v2
     appVersion: 1.21.1
-    created: "2026-02-23T03:54:04.986257+01:00"
+    created: "2026-02-23T04:28:09.640408+01:00"
     description: A Helm chart for a Minecraft Java Edition Server on Kubernetes
     digest: c85acea7f044048cb57fdcc15836c16c7952d49993669c1cec6c8db3ecdad2cb
     keywords:
@@ -250,7 +266,7 @@ entries:
     version: 1.0.6
   - apiVersion: v2
     appVersion: 1.21.1
-    created: "2026-02-23T03:54:04.985741+01:00"
+    created: "2026-02-23T04:28:09.640108+01:00"
     description: A Helm chart for a Minecraft Java Edition Server on Kubernetes
     digest: 72b46a652e0742725d247a7b56818acbf079a3dd4f57d1d7789b1743dcf1f4c6
     keywords:
@@ -264,7 +280,7 @@ entries:
     version: 1.0.5
   - apiVersion: v2
     appVersion: 1.21.1
-    created: "2026-02-23T03:54:04.985482+01:00"
+    created: "2026-02-23T04:28:09.639795+01:00"
     description: A Helm chart for a Minecraft Java Edition Server on Kubernetes
     digest: f89a680b3ecc705f89282700365a3eae570046604ed66c7490ebb7fcf1595b40
     keywords:
@@ -278,7 +294,7 @@ entries:
     version: 1.0.4
   - apiVersion: v2
     appVersion: 1.21.1
-    created: "2026-02-23T03:54:04.985245+01:00"
+    created: "2026-02-23T04:28:09.639436+01:00"
     description: A Helm chart for a Minecraft Java Edition Server on Kubernetes
     digest: 06ffa89831b084a73cfe8a504809230fa401305457d72a63f529a23899f28e3d
     keywords:
@@ -292,7 +308,7 @@ entries:
     version: 1.0.3
   - apiVersion: v2
     appVersion: 1.21.1
-    created: "2026-02-23T03:54:04.985+01:00"
+    created: "2026-02-23T04:28:09.638859+01:00"
     description: A Helm chart for a Minecraft Java Edition Server on Kubernetes
     digest: ead821733c90b9b91caed4b91ef0ac1937074fa17a324f89ac0ca1d7658f699a
     keywords:
@@ -306,7 +322,7 @@ entries:
     version: 1.0.2
   - apiVersion: v2
     appVersion: 1.21.1
-    created: "2026-02-23T03:54:04.984774+01:00"
+    created: "2026-02-23T04:28:09.638565+01:00"
     description: A Helm chart for a Minecraft Java Edition Server on Kubernetes
     digest: 4e6f551baebb0d18aa7cbfc97fac276f55a78199b33c8dcc2630685ee53361db
     keywords:
@@ -320,7 +336,7 @@ entries:
     version: 1.0.1
   - apiVersion: v2
     appVersion: 1.21.1
-    created: "2026-02-23T03:54:04.984541+01:00"
+    created: "2026-02-23T04:28:09.638269+01:00"
     description: A Helm chart for a Minecraft Java Edition Server on Kubernetes
     digest: 747c0a204fd82da20c3533671bce1a1d11d6a07649c7faa048e012303b22f21e
     keywords:
@@ -335,7 +351,7 @@ entries:
   mumble:
   - apiVersion: v2
     appVersion: v1.5.857-0
-    created: "2026-02-23T03:54:04.988354+01:00"
+    created: "2026-02-23T04:28:09.643387+01:00"
     description: A Helm chart for providing mumble server to kubernetes
     digest: c11adf4e8664c3e5dbd8fbf217be381970ec7b1f495f0d8c58257dec7c627ee4
     home: https://github.com/Syntax3rror404/helm-charts
@@ -352,7 +368,7 @@ entries:
     version: 1.0.1
   - apiVersion: v2
     appVersion: v1.5.857-0
-    created: "2026-02-23T03:54:04.988164+01:00"
+    created: "2026-02-23T04:28:09.64292+01:00"
     description: A Helm chart for providing mumble server to kubernetes
     digest: 807e2f63556779f25f947fb1af81b3af51081f557f82d5260820f9869034bd46
     home: https://github.com/Syntax3rror404/helm-charts
@@ -369,7 +385,7 @@ entries:
     version: 1.0.0
   - apiVersion: v2
     appVersion: v1.5.857-0
-    created: "2026-02-23T03:54:04.987989+01:00"
+    created: "2026-02-23T04:28:09.642723+01:00"
     description: A Helm chart for providing mumble server to kubernetes
     digest: d213d077f3af0938d5c43e5c65b7a7ca72a68430299e4d35983e381d5bcad961
     home: https://github.com/Syntax3rror404/helm-charts
@@ -386,7 +402,7 @@ entries:
     version: 0.9.3
   - apiVersion: v2
     appVersion: v1.5.735-3
-    created: "2026-02-23T03:54:04.98785+01:00"
+    created: "2026-02-23T04:28:09.64257+01:00"
     description: A Helm chart for providing mumble server to kubernetes
     digest: fc93af095dcbbc79f77bfd9990726363566f0177650036f96dceafa7f5add09d
     home: https://github.com/Syntax3rror404/helm-charts
@@ -403,7 +419,7 @@ entries:
     version: 0.9.2
   - apiVersion: v2
     appVersion: v1.5.735-3
-    created: "2026-02-23T03:54:04.987703+01:00"
+    created: "2026-02-23T04:28:09.642427+01:00"
     description: A Helm chart for providing mumble server to kubernetes
     digest: da50982601f4cab6005b090d25d56628315d6967717ba1de1e33cffdf458e8ef
     home: https://github.com/Syntax3rror404/helm-charts
@@ -420,7 +436,7 @@ entries:
     version: 0.9.1
   - apiVersion: v2
     appVersion: v1.5.735-3
-    created: "2026-02-23T03:54:04.987569+01:00"
+    created: "2026-02-23T04:28:09.642282+01:00"
     description: A Helm chart for providing mumble server to kubernetes
     digest: 75427f931f2be862fbcb4e45c175ab916885bbc70e462d429028a1e4cb186e20
     home: https://github.com/Syntax3rror404/helm-charts
@@ -438,7 +454,7 @@ entries:
   snipeit:
   - apiVersion: v2
     appVersion: 8.3.7
-    created: "2026-02-23T03:54:05.03444+01:00"
+    created: "2026-02-23T04:28:09.688405+01:00"
     description: A Helm chart for providing snipe-it to kubernetes
     digest: 89af91f4fa2e75f35be80ffc1f38ec031b140cc7aa9da50928e326bf698141eb
     home: https://github.com/Syntax3rror404/helm-charts
@@ -456,7 +472,7 @@ entries:
     version: 2.1.9
   - apiVersion: v2
     appVersion: 8.3.7
-    created: "2026-02-23T03:54:05.034081+01:00"
+    created: "2026-02-23T04:28:09.688073+01:00"
     description: A Helm chart for providing snipe-it to kubernetes
     digest: 37031be3068656ec401b964a19ac41bb1ce3a5a4c399bd84ba79ee9f32f96dab
     home: https://github.com/Syntax3rror404/helm-charts
@@ -474,7 +490,7 @@ entries:
     version: 2.1.8
   - apiVersion: v2
     appVersion: 8.3.7
-    created: "2026-02-23T03:54:05.033712+01:00"
+    created: "2026-02-23T04:28:09.687741+01:00"
     description: A Helm chart for providing snipe-it to kubernetes
     digest: bd9e7696110f5ac8a3293e2288f37cee8e4d52e670b35fbe51b094176cd62a7f
     home: https://github.com/Syntax3rror404/helm-charts
@@ -492,7 +508,7 @@ entries:
     version: 2.1.7
   - apiVersion: v2
     appVersion: 8.3.7
-    created: "2026-02-23T03:54:05.033343+01:00"
+    created: "2026-02-23T04:28:09.687418+01:00"
     description: A Helm chart for providing snipe-it to kubernetes
     digest: aec9398aa5e81e4b82555ac5a884e59d5398383cf1cd92caee4b3812c75c28e2
     home: https://github.com/Syntax3rror404/helm-charts
@@ -510,7 +526,7 @@ entries:
     version: 2.1.6
   - apiVersion: v2
     appVersion: 8.3.7
-    created: "2026-02-23T03:54:05.032973+01:00"
+    created: "2026-02-23T04:28:09.686805+01:00"
     description: A Helm chart for providing snipe-it to kubernetes
     digest: 858ba6938cff3a815dce87708c5f831723dbddcd6620c9c09a6fb23f6a001ab7
     home: https://github.com/Syntax3rror404/helm-charts
@@ -528,7 +544,7 @@ entries:
     version: 2.1.5
   - apiVersion: v2
     appVersion: 8.3.7
-    created: "2026-02-23T03:54:05.032201+01:00"
+    created: "2026-02-23T04:28:09.686487+01:00"
     description: A Helm chart for providing snipe-it to kubernetes
     digest: b9ef1363e5fdafcd1c3968d3d17ea889a67c0371fa5c4e8c5101db919d31a232
     home: https://github.com/Syntax3rror404/helm-charts
@@ -546,7 +562,7 @@ entries:
     version: 2.1.4
   - apiVersion: v2
     appVersion: 8.3.7
-    created: "2026-02-23T03:54:05.031847+01:00"
+    created: "2026-02-23T04:28:09.686162+01:00"
     description: A Helm chart for providing snipe-it to kubernetes
     digest: affca4a274889a282f5e03d53b74b5c3e56c97c07a29afed55d23e33d1c6a8e3
     home: https://github.com/Syntax3rror404/helm-charts
@@ -564,7 +580,7 @@ entries:
     version: 2.1.3
   - apiVersion: v2
     appVersion: 8.3.7
-    created: "2026-02-23T03:54:05.031545+01:00"
+    created: "2026-02-23T04:28:09.685891+01:00"
     description: A Helm chart for providing snipe-it to kubernetes
     digest: 3990ce012537954f5fc0abdf6c75af898a3815905e43c22dd30e77e345b407b1
     home: https://github.com/Syntax3rror404/helm-charts
@@ -582,7 +598,7 @@ entries:
     version: 2.1.2
   - apiVersion: v2
     appVersion: 8.3.5
-    created: "2026-02-23T03:54:05.031226+01:00"
+    created: "2026-02-23T04:28:09.685628+01:00"
     description: A Helm chart for providing snipe-it to kubernetes
     digest: 8d684b0bd9fda4e6e1affcfc33c43f3720845ca73f3eb273a0debacfd6724595
     home: https://github.com/Syntax3rror404/helm-charts
@@ -600,7 +616,7 @@ entries:
     version: 2.1.1
   - apiVersion: v2
     appVersion: 8.3.4
-    created: "2026-02-23T03:54:05.030915+01:00"
+    created: "2026-02-23T04:28:09.685332+01:00"
     description: A Helm chart for providing snipe-it to kubernetes
     digest: 3135a9455f70ddd1b7cd1cd5a9dae6b7117f30d661651d301e0a9bde7c78e6e6
     home: https://github.com/Syntax3rror404/helm-charts
@@ -618,7 +634,7 @@ entries:
     version: 2.1.0
   - apiVersion: v2
     appVersion: 8.3.4
-    created: "2026-02-23T03:54:05.030607+01:00"
+    created: "2026-02-23T04:28:09.685046+01:00"
     description: A Helm chart for providing snipe-it to kubernetes
     digest: ece5e3969f6e3b8f6a557502f073ecafafb7095a2dd71576e2f69d37125aca5a
     home: https://github.com/Syntax3rror404/helm-charts
@@ -636,7 +652,7 @@ entries:
     version: 2.0.9
   - apiVersion: v2
     appVersion: 8.3.4
-    created: "2026-02-23T03:54:05.030285+01:00"
+    created: "2026-02-23T04:28:09.684758+01:00"
     description: A Helm chart for providing snipe-it to kubernetes
     digest: 83e3346a4536d63228cd68f77523e661cca2bbf7715d66bfcfa5f8a29654e652
     home: https://github.com/Syntax3rror404/helm-charts
@@ -654,7 +670,7 @@ entries:
     version: 2.0.8
   - apiVersion: v2
     appVersion: 8.3.4
-    created: "2026-02-23T03:54:05.029972+01:00"
+    created: "2026-02-23T04:28:09.684471+01:00"
     description: A Helm chart for providing snipe-it to kubernetes
     digest: bf4df3584979b5fc6480469ce9acbf5a246f6de27cc613a475fe4a6ebf3519fb
     home: https://github.com/Syntax3rror404/helm-charts
@@ -672,7 +688,7 @@ entries:
     version: 2.0.7
   - apiVersion: v2
     appVersion: 8.3.4
-    created: "2026-02-23T03:54:05.029648+01:00"
+    created: "2026-02-23T04:28:09.684175+01:00"
     description: A Helm chart for providing snipe-it to kubernetes
     digest: 09952fa4f0c73efd16d5e2dda58bd59218a39119074267f1d6d6a6a5a7e6e95c
     home: https://github.com/Syntax3rror404/helm-charts
@@ -690,7 +706,7 @@ entries:
     version: 2.0.6
   - apiVersion: v2
     appVersion: 8.3.4
-    created: "2026-02-23T03:54:05.029313+01:00"
+    created: "2026-02-23T04:28:09.683879+01:00"
     description: A Helm chart for providing snipe-it to kubernetes
     digest: a37e8c3c5b2136acea0caf694c182da804e9f110c125beff53ce426d557058df
     home: https://github.com/Syntax3rror404/helm-charts
@@ -708,7 +724,7 @@ entries:
     version: 2.0.5
   - apiVersion: v2
     appVersion: 8.3.4
-    created: "2026-02-23T03:54:05.028931+01:00"
+    created: "2026-02-23T04:28:09.68331+01:00"
     description: A Helm chart for providing snipe-it to kubernetes
     digest: bbda68fa2c4225a5f758bc1f1fdb32cc4e459ae0dce7794f3d13c1f6aef4dd9e
     home: https://github.com/Syntax3rror404/helm-charts
@@ -726,7 +742,7 @@ entries:
     version: 2.0.4
   - apiVersion: v2
     appVersion: 8.3.4
-    created: "2026-02-23T03:54:05.028094+01:00"
+    created: "2026-02-23T04:28:09.683028+01:00"
     description: A Helm chart for providing snipe-it to kubernetes
     digest: befacf511e7d9800e00e2044e1db7d0e1481c6e1be3127fe313ef9447cf00bdc
     home: https://github.com/Syntax3rror404/helm-charts
@@ -744,7 +760,7 @@ entries:
     version: 2.0.3
   - apiVersion: v2
     appVersion: 8.3.4
-    created: "2026-02-23T03:54:05.025485+01:00"
+    created: "2026-02-23T04:28:09.680766+01:00"
     description: A Helm chart for providing snipe-it to kubernetes
     digest: 067b77ac85e22813c70f130b1d53c2073a9fc82cc3e26106d54a24a1c036974d
     home: https://github.com/Syntax3rror404/helm-charts
@@ -762,7 +778,7 @@ entries:
     version: 2.0.2
   - apiVersion: v2
     appVersion: 8.3.4
-    created: "2026-02-23T03:54:05.022654+01:00"
+    created: "2026-02-23T04:28:09.678138+01:00"
     description: A Helm chart for providing snipe-it to kubernetes
     digest: edc2dc561263e43b690899e16475819e3e7cd11eb38b251953789227c8df10b7
     home: https://github.com/Syntax3rror404/helm-charts
@@ -780,7 +796,7 @@ entries:
     version: 2.0.1
   - apiVersion: v2
     appVersion: 8.3.4
-    created: "2026-02-23T03:54:05.020187+01:00"
+    created: "2026-02-23T04:28:09.675611+01:00"
     description: A Helm chart for providing snipe-it to kubernetes
     digest: cafbfdeea991f7be026d16c3ab1a736323bbbbd6488956185b05852bb5dd6a35
     home: https://github.com/Syntax3rror404/helm-charts
@@ -798,7 +814,7 @@ entries:
     version: 2.0.0
   - apiVersion: v2
     appVersion: 8.2.1
-    created: "2026-02-23T03:54:04.996285+01:00"
+    created: "2026-02-23T04:28:09.652776+01:00"
     dependencies:
     - name: mariadb
       repository: oci://registry-1.docker.io/bitnamicharts
@@ -821,7 +837,7 @@ entries:
     version: 1.2.10
   - apiVersion: v2
     appVersion: 8.2.0
-    created: "2026-02-23T03:54:05.017434+01:00"
+    created: "2026-02-23T04:28:09.673241+01:00"
     dependencies:
     - name: mariadb
       repository: oci://registry-1.docker.io/bitnamicharts
@@ -844,7 +860,7 @@ entries:
     version: 1.2.9
   - apiVersion: v2
     appVersion: 8.2.0
-    created: "2026-02-23T03:54:05.014798+01:00"
+    created: "2026-02-23T04:28:09.67053+01:00"
     dependencies:
     - name: mariadb
       repository: oci://registry-1.docker.io/bitnamicharts
@@ -867,7 +883,7 @@ entries:
     version: 1.2.8
   - apiVersion: v2
     appVersion: 8.2.0
-    created: "2026-02-23T03:54:05.012246+01:00"
+    created: "2026-02-23T04:28:09.668042+01:00"
     dependencies:
     - name: mariadb
       repository: oci://registry-1.docker.io/bitnamicharts
@@ -890,7 +906,7 @@ entries:
     version: 1.2.7
   - apiVersion: v2
     appVersion: 8.1.18
-    created: "2026-02-23T03:54:05.009218+01:00"
+    created: "2026-02-23T04:28:09.665738+01:00"
     dependencies:
     - name: mariadb
       repository: oci://registry-1.docker.io/bitnamicharts
@@ -913,7 +929,7 @@ entries:
     version: 1.2.6
   - apiVersion: v2
     appVersion: 8.1.17
-    created: "2026-02-23T03:54:05.006541+01:00"
+    created: "2026-02-23T04:28:09.66315+01:00"
     dependencies:
     - name: mariadb
       repository: oci://registry-1.docker.io/bitnamicharts
@@ -936,7 +952,7 @@ entries:
     version: 1.2.5
   - apiVersion: v2
     appVersion: 8.1.17
-    created: "2026-02-23T03:54:05.003916+01:00"
+    created: "2026-02-23T04:28:09.660729+01:00"
     dependencies:
     - name: mariadb
       repository: oci://registry-1.docker.io/bitnamicharts
@@ -959,7 +975,7 @@ entries:
     version: 1.2.4
   - apiVersion: v2
     appVersion: 8.1.17
-    created: "2026-02-23T03:54:05.001707+01:00"
+    created: "2026-02-23T04:28:09.658044+01:00"
     dependencies:
     - name: mariadb
       repository: oci://registry-1.docker.io/bitnamicharts
@@ -982,7 +998,7 @@ entries:
     version: 1.2.3
   - apiVersion: v2
     appVersion: 8.1.17
-    created: "2026-02-23T03:54:04.999122+01:00"
+    created: "2026-02-23T04:28:09.655336+01:00"
     dependencies:
     - name: mariadb
       repository: oci://registry-1.docker.io/bitnamicharts
@@ -1005,7 +1021,7 @@ entries:
     version: 1.2.2
   - apiVersion: v2
     appVersion: 8.1.16
-    created: "2026-02-23T03:54:04.993679+01:00"
+    created: "2026-02-23T04:28:09.649883+01:00"
     dependencies:
     - name: mariadb
       repository: oci://registry-1.docker.io/bitnamicharts
@@ -1028,7 +1044,7 @@ entries:
     version: 1.2.1
   - apiVersion: v2
     appVersion: 8.1.16
-    created: "2026-02-23T03:54:04.990944+01:00"
+    created: "2026-02-23T04:28:09.646154+01:00"
     dependencies:
     - name: mariadb
       repository: oci://registry-1.docker.io/bitnamicharts
@@ -1052,7 +1068,7 @@ entries:
   teamspeak:
   - apiVersion: v2
     appVersion: 3.13.7
-    created: "2026-02-23T03:54:05.048563+01:00"
+    created: "2026-02-23T04:28:09.700441+01:00"
     description: A Helm chart for providing teamspeak server to kubernetes
     digest: 2bb7a10dee7b70eb7806f0d1c034c7a04bed6b7c0dc4c0b66abff5199cc07fcd
     home: https://github.com/Syntax3rror404/helm-charts
@@ -1069,7 +1085,7 @@ entries:
     version: 1.0.5
   - apiVersion: v2
     appVersion: 3.13.7
-    created: "2026-02-23T03:54:05.04834+01:00"
+    created: "2026-02-23T04:28:09.700262+01:00"
     description: A Helm chart for providing teamspeak server to kubernetes
     digest: 61331d27fc01041a483d73bfd0eafe4340678eef9da9de7240ce11c0a7ca8568
     home: https://github.com/Syntax3rror404/helm-charts
@@ -1086,7 +1102,7 @@ entries:
     version: 1.0.4
   - apiVersion: v2
     appVersion: 3.13.7
-    created: "2026-02-23T03:54:05.048105+01:00"
+    created: "2026-02-23T04:28:09.700072+01:00"
     description: A Helm chart for providing teamspeak server to kubernetes
     digest: 1c648c5724f012ae257897525344175fed574e6fb22088fd51f76c3923dd2b09
     home: https://github.com/Syntax3rror404/helm-charts
@@ -1103,7 +1119,7 @@ entries:
     version: 1.0.3
   - apiVersion: v2
     appVersion: 3.13.7
-    created: "2026-02-23T03:54:05.047864+01:00"
+    created: "2026-02-23T04:28:09.699893+01:00"
     description: A Helm chart for providing teamspeak server to kubernetes
     digest: e74a7c62979460ceac04b832e85c40fce946757f91ac1b51c103ba627eb43aa1
     home: https://github.com/Syntax3rror404/helm-charts
@@ -1120,7 +1136,7 @@ entries:
     version: 1.0.2
   - apiVersion: v2
     appVersion: 3.13.7
-    created: "2026-02-23T03:54:05.047671+01:00"
+    created: "2026-02-23T04:28:09.699703+01:00"
     description: A Helm chart for providing teamspeak server to kubernetes
     digest: 8af1ed5eb7049b8b641032edef8baa8597bebc653555d38944ed3622f42c402c
     home: https://github.com/Syntax3rror404/helm-charts
@@ -1137,7 +1153,7 @@ entries:
     version: 1.0.1
   - apiVersion: v2
     appVersion: 3.13.7
-    created: "2026-02-23T03:54:05.047464+01:00"
+    created: "2026-02-23T04:28:09.699524+01:00"
     description: A Helm chart for providing teamspeak server to kubernetes
     digest: 2cc9a41c0bc409b14ac6370d7b0361976c8525733893f9051aea9cf7f5c77243
     home: https://github.com/Syntax3rror404/helm-charts
@@ -1154,7 +1170,7 @@ entries:
     version: 1.0.0
   - apiVersion: v2
     appVersion: 3.13.7
-    created: "2026-02-23T03:54:05.036998+01:00"
+    created: "2026-02-23T04:28:09.690719+01:00"
     dependencies:
     - name: mariadb
       repository: oci://registry-1.docker.io/bitnamicharts
@@ -1175,7 +1191,7 @@ entries:
     version: 0.9.10
   - apiVersion: v2
     appVersion: 3.13.7
-    created: "2026-02-23T03:54:05.047269+01:00"
+    created: "2026-02-23T04:28:09.699382+01:00"
     dependencies:
     - name: mariadb
       repository: oci://registry-1.docker.io/bitnamicharts
@@ -1196,7 +1212,7 @@ entries:
     version: 0.9.9
   - apiVersion: v2
     appVersion: 3.13.7
-    created: "2026-02-23T03:54:05.044461+01:00"
+    created: "2026-02-23T04:28:09.697103+01:00"
     dependencies:
     - name: mariadb
       repository: oci://registry-1.docker.io/bitnamicharts
@@ -1217,7 +1233,7 @@ entries:
     version: 0.9.8
   - apiVersion: v2
     appVersion: 3.13.7
-    created: "2026-02-23T03:54:05.041994+01:00"
+    created: "2026-02-23T04:28:09.695088+01:00"
     dependencies:
     - name: mariadb
       repository: oci://registry-1.docker.io/bitnamicharts
@@ -1238,7 +1254,7 @@ entries:
     version: 0.9.7
   - apiVersion: v2
     appVersion: 3.13.7
-    created: "2026-02-23T03:54:05.039289+01:00"
+    created: "2026-02-23T04:28:09.692707+01:00"
     dependencies:
     - name: mariadb
       repository: https://charts.bitnami.com/bitnami
@@ -1257,4 +1273,4 @@ entries:
     urls:
     - teamspeak-0.9.6.tgz
     version: 0.9.6
-generated: "2026-02-23T03:54:04.981028+01:00"
+generated: "2026-02-23T04:28:09.634249+01:00"
