@@ -8,9 +8,8 @@ image:
 
 # Minecraft Server JAR settings
 minecraft:
-  version: "1.21.1"
   # Full URL to the server jar. Override to pin a specific build.
-  jarUrl: "https://piston-data.mojang.com/v1/objects/4707d00eb834b446575d89a61a11b5d548d8c001/server.jar"
+  jarUrl: "https://piston-data.mojang.com/v1/objects/59353fb40c36d304f2035d51e7d6e6baa98dc05c/server.jar"
   jarFilename: "server.jar"
   # EULA – must be set to true to run a Minecraft server
   eulaAccepted: true
@@ -26,6 +25,20 @@ minecraft:
     onlineMode: "true"
     spawnProtection: "16"
     enableCommandBlock: "false"
+
+neoforge:
+  enabled: false
+  version: "21.1.219"
+  installerUrl: ""
+  userJvmArgs: |-
+    -Xms1G
+    -Xmx4G
+    -XX:+UseG1GC
+    -XX:+ParallelRefProcEnabled
+    -XX:MaxGCPauseMillis=200
+    -XX:+UnlockExperimentalVMOptions
+    -XX:+DisableExplicitGC
+    -Djava.io.tmpdir=/tmp
 
 service:
   type: LoadBalancer

@@ -62,3 +62,14 @@ RCON password – prefer existing secret, fall back to values
 {{- include "minecraft.fullname" . }}-rcon
 {{- end }}
 {{- end }}
+
+{{/*
+NeoForge installer URL – auto-build from version if not explicitly set
+*/}}
+{{- define "minecraft.neoforgeInstallerUrl" -}}
+{{- if .Values.neoforge.installerUrl }}
+{{- .Values.neoforge.installerUrl }}
+{{- else }}
+{{- printf "https://maven.neoforged.net/releases/net/neoforged/neoforge/%s/neoforge-%s-installer.jar" .Values.neoforge.version .Values.neoforge.version }}
+{{- end }}
+{{- end }}

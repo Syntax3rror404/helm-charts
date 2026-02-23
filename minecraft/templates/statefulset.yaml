@@ -53,7 +53,7 @@ spec:
               if [ -f "${JAR}" ]; then
                 echo "==> Server JAR already present, skipping download."
               else
-                echo "==> Server JAR not found – downloading {{ .Values.minecraft.version }}..."
+                echo "==> Server JAR not found – downloading {{ .Values.minecraft.jarUrl }}..."
                 curl \
                   --silent \
                   --show-error \
@@ -70,6 +70,66 @@ spec:
           volumeMounts:
             - name: data
               mountPath: /data
+
+        {{- if .Values.neoforge.enabled }}
+        - name: install-neoforge
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 1000
+            runAsGroup: 1000
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: false
+            capabilities:
+              drop:
+                - ALL
+          resources:
+            requests:
+              cpu: "500m"
+              memory: "512Mi"
+            limits:
+              cpu: "1000m"
+              memory: "1Gi"
+          env:
+            - name: NEOFORGE_VERSION
+              value: {{ .Values.neoforge.version | quote }}
+            - name: INSTALLER_URL
+              value: {{ include "minecraft.neoforgeInstallerUrl" . | quote }}
+          command:
+            - /bin/sh
+            - -c
+            - |
+              set -eu
+              DATA_DIR="/data"
+              INSTALLER_JAR="${DATA_DIR}/neoforge-installer.jar"
+              SENTINEL="${DATA_DIR}/run.sh"
+
+              if [ -f "${SENTINEL}" ]; then
+                echo "==> NeoForge ${NEOFORGE_VERSION} already installed (run.sh present), skipping."
+              else
+                echo "==> NeoForge ${NEOFORGE_VERSION} not found – downloading installer..."
+                if command -v wget >/dev/null 2>&1; then
+                  wget --quiet --tries=5 --waitretry=5 --timeout=60 \
+                    --output-document="${INSTALLER_JAR}" "${INSTALLER_URL}"
+                else
+                  curl --silent --show-error --fail --location \
+                    --retry 5 --retry-delay 5 --connect-timeout 30 --max-time 300 \
+                    --output "${INSTALLER_JAR}" "${INSTALLER_URL}"
+                fi
+                echo "==> Installer downloaded. SHA256: $(sha256sum ${INSTALLER_JAR})"
+                cd "${DATA_DIR}"
+                java -jar "${INSTALLER_JAR}" --installServer . 2>&1
+                rm -f "${INSTALLER_JAR}"
+                echo "==> NeoForge installation complete."
+              fi
+          volumeMounts:
+            - name: data
+              mountPath: /data
+            - name: tmp
+              mountPath: /tmp
+
+        {{- else }}
 
         # 2. Copy/overwrite server.properties from the ConfigMap
         - name: init-config
@@ -93,6 +153,10 @@ spec:
               cp /config/server.properties /data/server.properties
               echo "==> Writing eula.txt (eula={{ .Values.minecraft.eulaAccepted }})..."
               echo "eula={{ .Values.minecraft.eulaAccepted }}" > /data/eula.txt
+              {{- if .Values.neoforge.enabled }}
+              echo "==> Syncing user_jvm_args.txt..."
+              cp /config/user_jvm_args.txt /data/user_jvm_args.txt
+              {{- end }}
               echo "==> Init done."
           volumeMounts:
             - name: data
@@ -117,6 +181,12 @@ spec:
           securityContext:
             {{- toYaml .Values.securityContext.container | nindent 12 }}
           # ── Command ─────────────────────────────────────────────────
+          {{- if .Values.neoforge.enabled }}
+          command:
+            - /bin/sh
+            - /data/run.sh
+          args: []
+          {{- else }}
           command:
             - java
           args:
@@ -126,6 +196,7 @@ spec:
             - "-jar"
             - "/data/{{ .Values.minecraft.jarFilename }}"
             - "nogui"
+          {{- end }}
           workingDir: /data
           # ── Ports ───────────────────────────────────────────────────
           ports:

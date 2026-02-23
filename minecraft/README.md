@@ -43,7 +43,6 @@ See [`values.yaml`](values.yaml) for all options. Key settings:
 
 ```yaml
 minecraft:
-  version: "1.21.1"
   jarUrl: "https://..."   # override to use a specific jar
   eulaAccepted: true      # MUST be true
   jvmOpts: "-Xms1G -Xmx2G ..."

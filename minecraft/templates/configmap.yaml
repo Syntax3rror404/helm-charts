@@ -46,3 +46,9 @@ data:
       {{ .Values.minecraft.jvmOpts }} \
       -jar "${JAR}" \
       nogui
+
+  {{- if .Values.neoforge.enabled }}
+  user_jvm_args.txt: |
+    # JVM arguments managed by Helm – do not edit manually.
+    {{ .Values.neoforge.userJvmArgs | nindent 4 }}
+  {{- end }}
