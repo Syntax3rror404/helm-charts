@@ -3,7 +3,7 @@ apiVersion: v2
 name: minecraft
 description: A Helm chart for a Minecraft Java Edition Server on Kubernetes
 type: application
-version: 1.0.6
+version: 1.0.7
 appVersion: "1.21.1"
 keywords:
   - minecraft

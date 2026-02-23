@@ -30,7 +30,7 @@ spec:
       # ── Init Containers ────────────────────────────────────────────
       initContainers:
 
-        {{- if .Values.neoforge.enabled }}
+{{- if .Values.neoforge.enabled }}
         # NeoForge: Installer herunterladen & ausführen (Sentinel: run.sh)
         - name: install-neoforge
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
@@ -69,14 +69,12 @@ spec:
                 echo "==> NeoForge ${NEOFORGE_VERSION} already installed (run.sh present), skipping."
               else
                 echo "==> NeoForge ${NEOFORGE_VERSION} not found – downloading installer..."
-                if command -v wget >/dev/null 2>&1; then
-                  wget --quiet --tries=5 --waitretry=5 --timeout=60 \
-                    --output-document="${INSTALLER_JAR}" "${INSTALLER_URL}"
-                else
-                  curl --silent --show-error --fail --location \
-                    --retry 5 --retry-delay 5 --connect-timeout 30 --max-time 300 \
-                    --output "${INSTALLER_JAR}" "${INSTALLER_URL}"
-                fi
+                curl \
+                  --silent --show-error --fail --location \
+                  --retry 5 --retry-delay 5 \
+                  --connect-timeout 30 --max-time 300 \
+                  --output "${INSTALLER_JAR}" \
+                  "${INSTALLER_URL}"
                 echo "==> Installer downloaded. SHA256: $(sha256sum ${INSTALLER_JAR})"
                 cd "${DATA_DIR}"
                 java -jar "${INSTALLER_JAR}" --installServer . 2>&1
