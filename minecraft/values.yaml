@@ -2,7 +2,7 @@ replicaCount: 1
 
 image:
   # Eclipse Temurin (OpenJDK) – production-grade, rootless
-  repository: eclipse-temurin
+  repository: docker.io/eclipse-temurin
   tag: "21.0.10_7-jre-alpine-3.23"
   pullPolicy: IfNotPresent
 
@@ -88,7 +88,7 @@ securityContext:
 # Init container – downloads JAR only if missing
 initContainer:
   image:
-    repository: curlimages/curl
+    repository: docker.io/curlimages/curl
     tag: "8.7.1"
     pullPolicy: IfNotPresent
   resources:
