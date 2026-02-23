@@ -29,49 +29,9 @@ spec:
 
       # ── Init Containers ────────────────────────────────────────────
       initContainers:
-        # 1. Download the server JAR if it is missing
-        - name: download-jar
-          image: "{{ .Values.initContainer.image.repository }}:{{ .Values.initContainer.image.tag }}"
-          imagePullPolicy: {{ .Values.initContainer.image.pullPolicy }}
-          securityContext:
-            runAsNonRoot: true
-            runAsUser: 1000
-            runAsGroup: 1000
-            allowPrivilegeEscalation: false
-            readOnlyRootFilesystem: true
-            capabilities:
-              drop:
-                - ALL
-          resources:
-            {{- toYaml .Values.initContainer.resources | nindent 12 }}
-          command:
-            - /bin/sh
-            - -c
-            - |
-              set -eu
-              JAR="/data/{{ .Values.minecraft.jarFilename }}"
-              if [ -f "${JAR}" ]; then
-                echo "==> Server JAR already present, skipping download."
-              else
-                echo "==> Server JAR not found – downloading {{ .Values.minecraft.jarUrl }}..."
-                curl \
-                  --silent \
-                  --show-error \
-                  --fail \
-                  --location \
-                  --retry 5 \
-                  --retry-delay 5 \
-                  --connect-timeout 30 \
-                  --max-time 300 \
-                  --output "${JAR}" \
-                  "{{ .Values.minecraft.jarUrl }}"
-                echo "==> Download complete. SHA256: $(sha256sum ${JAR})"
-              fi
-          volumeMounts:
-            - name: data
-              mountPath: /data
 
         {{- if .Values.neoforge.enabled }}
+        # NeoForge: Installer herunterladen & ausführen (Sentinel: run.sh)
         - name: install-neoforge
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
@@ -130,8 +90,46 @@ spec:
               mountPath: /tmp
 
         {{- else }}
+        # Vanilla: server.jar herunterladen falls nicht vorhanden
+        - name: download-jar
+          image: "{{ .Values.initContainer.image.repository }}:{{ .Values.initContainer.image.tag }}"
+          imagePullPolicy: {{ .Values.initContainer.image.pullPolicy }}
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 1000
+            runAsGroup: 1000
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop:
+                - ALL
+          resources:
+            {{- toYaml .Values.initContainer.resources | nindent 12 }}
+          command:
+            - /bin/sh
+            - -c
+            - |
+              set -eu
+              JAR="/data/{{ .Values.minecraft.jarFilename }}"
+              if [ -f "${JAR}" ]; then
+                echo "==> Server JAR already present, skipping download."
+              else
+                echo "==> Server JAR not found – downloading {{ .Values.minecraft.jarUrl }}..."
+                curl \
+                  --silent --show-error --fail --location \
+                  --retry 5 --retry-delay 5 \
+                  --connect-timeout 30 --max-time 300 \
+                  --output "${JAR}" \
+                  "{{ .Values.minecraft.jarUrl }}"
+                echo "==> Download complete. SHA256: $(sha256sum ${JAR})"
+              fi
+          volumeMounts:
+            - name: data
+              mountPath: /data
 
-        # 2. Copy/overwrite server.properties from the ConfigMap
+        {{- end }}
+
+        # Config-Sync läuft immer (vanilla + NeoForge)
         - name: init-config
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
