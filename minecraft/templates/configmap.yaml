@@ -1,0 +1,48 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "minecraft.fullname" . }}-config
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "minecraft.labels" . | nindent 4 }}
+data:
+  # server.properties – written by the init-config init container
+  server.properties: |
+    #Minecraft server properties (managed by Helm)
+    motd={{ .Values.minecraft.serverProperties.motd }}
+    max-players={{ .Values.minecraft.serverProperties.maxPlayers }}
+    difficulty={{ .Values.minecraft.serverProperties.difficulty }}
+    gamemode={{ .Values.minecraft.serverProperties.gamemode }}
+    pvp={{ .Values.minecraft.serverProperties.pvp }}
+    view-distance={{ .Values.minecraft.serverProperties.viewDistance }}
+    simulation-distance={{ .Values.minecraft.serverProperties.simulationDistance }}
+    online-mode={{ .Values.minecraft.serverProperties.onlineMode }}
+    spawn-protection={{ .Values.minecraft.serverProperties.spawnProtection }}
+    enable-command-block={{ .Values.minecraft.serverProperties.enableCommandBlock }}
+    server-port=25565
+    {{- if .Values.rcon.enabled }}
+    enable-rcon=true
+    rcon.port={{ .Values.rcon.port }}
+    {{- end }}
+
+  # Startup script run inside the container
+  start.sh: |
+    #!/bin/sh
+    set -eu
+    DATA_DIR="/data"
+    JAR="${DATA_DIR}/{{ .Values.minecraft.jarFilename }}"
+
+    echo "==> Copying server.properties if not already present..."
+    if [ ! -f "${DATA_DIR}/server.properties" ]; then
+      cp /config/server.properties "${DATA_DIR}/server.properties"
+    fi
+
+    echo "==> Writing eula.txt..."
+    echo "eula={{ .Values.minecraft.eulaAccepted }}" > "${DATA_DIR}/eula.txt"
+
+    echo "==> Starting Minecraft server ${JAR}..."
+    exec java \
+      {{ .Values.minecraft.jvmOpts }} \
+      -jar "${JAR}" \
+      nogui

@@ -1,0 +1,124 @@
+replicaCount: 1
+
+image:
+  # Eclipse Temurin (OpenJDK) – production-grade, rootless
+  repository: eclipse-temurin
+  tag: "21.0.10_7-jre-alpine-3.23"
+  pullPolicy: IfNotPresent
+
+# Minecraft Server JAR settings
+minecraft:
+  version: "1.21.1"
+  # Full URL to the server jar. Override to pin a specific build.
+  jarUrl: "https://piston-data.mojang.com/v1/objects/4707d00eb834b446575d89a61a11b5d548d8c001/server.jar"
+  jarFilename: "server.jar"
+  # EULA – must be set to true to run a Minecraft server
+  eulaAccepted: true
+  jvmOpts: "-Xms1G -Xmx4G -XX:+UseG1GC -XX:+ParallelRefProcEnabled -XX:MaxGCPauseMillis=200 -XX:+UnlockExperimentalVMOptions -XX:+DisableExplicitGC"
+  serverProperties:
+    motd: "A Kubernetes Minecraft Server"
+    maxPlayers: "20"
+    difficulty: "normal"
+    gamemode: "survival"
+    pvp: "true"
+    viewDistance: "10"
+    simulationDistance: "10"
+    onlineMode: "true"
+    spawnProtection: "16"
+    enableCommandBlock: "false"
+
+service:
+  type: LoadBalancer
+  port: 25565
+  # Optionally set a fixed NodePort (only relevant if type=NodePort)
+  # nodePort: 32565
+  annotations: {}
+
+# Persistent storage for /data (world, configs, mods, etc.)
+persistence:
+  enabled: true
+  storageClass: ""   # leave empty to use cluster default
+  accessModes:
+    - ReadWriteOnce
+  size: 10Gi
+  # Provide an existing PVC name to reuse data
+  existingClaim: ""
+
+# Resource requests & limits
+resources:
+  requests:
+    cpu: "500m"
+    memory: "1.5Gi"
+  limits:
+    cpu: "4000m"
+    memory: "4Gi"
+
+securityContext:
+  # Pod-level security context
+  pod:
+    runAsNonRoot: true
+    runAsUser: 1000
+    runAsGroup: 1000
+    fsGroup: 1000
+    seccompProfile:
+      type: RuntimeDefault
+  # Container-level security context
+  container:
+    allowPrivilegeEscalation: false
+    readOnlyRootFilesystem: false   # server writes logs/worlds to /data
+    capabilities:
+      drop:
+        - ALL
+
+# Init container – downloads JAR only if missing
+initContainer:
+  image:
+    repository: curlimages/curl
+    tag: "8.7.1"
+    pullPolicy: IfNotPresent
+  resources:
+    requests:
+      cpu: "100m"
+      memory: "64Mi"
+    limits:
+      cpu: "200m"
+      memory: "128Mi"
+
+# Liveness & Readiness probes via TCP socket on the game port
+probes:
+  liveness:
+    initialDelaySeconds: 60
+    periodSeconds: 30
+    failureThreshold: 5
+    timeoutSeconds: 5
+  readiness:
+    initialDelaySeconds: 30
+    periodSeconds: 10
+    failureThreshold: 3
+    timeoutSeconds: 3
+
+# Optional RCON service (remote console)
+rcon:
+  enabled: false
+  port: 25575
+  password: "changeme"   # put this in a Secret in production!
+
+# Pod scheduling
+nodeSelector: {}
+tolerations: []
+affinity: {}
+
+
+# Extra environment variables injected into the server container
+extraEnv: []
+# - name: MY_VAR
+#   value: "my-value"
+
+# Optional RCON password from an existing Secret
+existingRconSecret: ""
+# secretKey: rcon-password
+
+serviceAccount:
+  create: true
+  annotations: {}
+  name: ""
