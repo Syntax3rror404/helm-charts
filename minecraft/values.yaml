@@ -33,6 +33,7 @@ service:
   # Optionally set a fixed NodePort (only relevant if type=NodePort)
   # nodePort: 32565
   annotations: {}
+  labels: {}
 
 # Persistent storage for /data (world, configs, mods, etc.)
 persistence:
