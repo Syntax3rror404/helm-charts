@@ -15,6 +15,7 @@ data:
     difficulty={{ .Values.minecraft.serverProperties.difficulty }}
     gamemode={{ .Values.minecraft.serverProperties.gamemode }}
     pvp={{ .Values.minecraft.serverProperties.pvp }}
+    white-list={{ .Values.minecraft.serverProperties.whiteList }}
     view-distance={{ .Values.minecraft.serverProperties.viewDistance }}
     simulation-distance={{ .Values.minecraft.serverProperties.simulationDistance }}
     online-mode={{ .Values.minecraft.serverProperties.onlineMode }}

@@ -26,6 +26,7 @@ minecraft:
     spawnProtection: "16"
     enableCommandBlock: "false"
     levelName: "world"
+    whiteList: "true"
 
 neoforge:
   enabled: false
