@@ -89,7 +89,7 @@ kubectl delete ns snipeit
 | `snipeit.config.debug` | `false` | Enable debug mode |
 | `snipeit.entrypointOverride.enabled` | `true` | Uses a custom entypoint which removes the chown commands to allow it to run rootless |
 | `snipeit.image.repository` | `docker.io/snipe/snipe-it` | Container image repository |
-| `snipeit.image.tag` | `v8.3.4-alpine` | Container image tag |
+| `snipeit.image.tag` | see values | Container image tag |
 | `snipeit.persistence.size` | `2Gi` | Persistent volume size |
 | `snipeit.persistence.storageClass` | `longhorn` | Storage class for PVC |
 | `replicaCount` | `1` | Number of replicas |
