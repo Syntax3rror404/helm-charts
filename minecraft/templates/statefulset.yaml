@@ -162,7 +162,7 @@ spec:
 
         {{- end }}
 
-        # Config-Sync
+        # Config-Sync läuft immer (vanilla + NeoForge)
         - name: init-config
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
@@ -182,13 +182,11 @@ spec:
               set -eu
               echo "==> Syncing server.properties..."
               cp /config/server.properties /data/server.properties
-              echo "==> Writing eula.txt..."
+              echo "==> Writing eula.txt (eula={{ .Values.minecraft.eulaAccepted }})..."
               echo "eula={{ .Values.minecraft.eulaAccepted }}" > /data/eula.txt
               {{- if .Values.neoforge.enabled }}
-              echo "==> Writing user_jvm_args.txt..."
-              cat > /data/user_jvm_args.txt << 'EOF'
-              {{ .Values.neoforge.userJvmArgs }}
-              EOF
+              echo "==> Syncing user_jvm_args.txt..."
+              cp /config/user_jvm_args.txt /data/user_jvm_args.txt
               {{- end }}
               echo "==> Init done."
           volumeMounts:
@@ -214,26 +212,23 @@ spec:
           securityContext:
             {{- toYaml .Values.securityContext.container | nindent 12 }}
           # ── Command ─────────────────────────────────────────────────
+          {{- if .Values.neoforge.enabled }}
           command:
             - /bin/sh
-            - -c
-            - |
-              set -eu
-              mkfifo /tmp/mc-stdin
-              tail -f /tmp/mc-stdin | \
-              {{- if .Values.neoforge.enabled }}
-              /bin/sh /data/run.sh
-              {{- else }}
-              java {{ .Values.minecraft.jvmOpts }} -jar /data/{{ .Values.minecraft.jarFilename }} nogui
-              {{- end }}
+            - /data/run.sh
+          args: []
+          {{- else }}
+          command:
+            - java
+          args:
+            {{- range (splitList " " .Values.minecraft.jvmOpts) }}
+            - {{ . | quote }}
+            {{- end }}
+            - "-jar"
+            - "/data/{{ .Values.minecraft.jarFilename }}"
+            - "nogui"
+          {{- end }}
           workingDir: /data
-          lifecycle:
-            preStop:
-              exec:
-                command:
-                  - /bin/sh
-                  - -c
-                  - echo "stop" > /tmp/mc-stdin && sleep 20
           # ── Ports ───────────────────────────────────────────────────
           ports:
             - name: minecraft
