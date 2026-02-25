@@ -227,13 +227,6 @@ spec:
               java {{ .Values.minecraft.jvmOpts }} -jar /data/{{ .Values.minecraft.jarFilename }} nogui
               {{- end }}
           workingDir: /data
-          lifecycle:
-            preStop:
-              exec:
-                command:
-                  - /bin/sh
-                  - -c
-                  - "echo 'stop' > /tmp/mc-stdin && sleep 20"
           # ── Ports ───────────────────────────────────────────────────
           ports:
             - name: minecraft
