@@ -138,3 +138,6 @@ serviceAccount:
   create: true
   annotations: {}
   name: ""
+
+# Time for gracefull shutdown
+terminationGracePeriodSeconds: 90

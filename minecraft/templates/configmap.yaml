@@ -34,6 +34,7 @@ data:
     set -eu
     DATA_DIR="/data"
     JAR="${DATA_DIR}/{{ .Values.minecraft.jarFilename }}"
+    FIFO="/tmp/mc-stdin"
 
     echo "==> Copying server.properties if not already present..."
     if [ ! -f "${DATA_DIR}/server.properties" ]; then
@@ -43,13 +44,44 @@ data:
     echo "==> Writing eula.txt..."
     echo "eula={{ .Values.minecraft.eulaAccepted }}" > "${DATA_DIR}/eula.txt"
 
+    echo "==> Creating command FIFO at ${FIFO}..."
+    mkfifo "${FIFO}" 2>/dev/null || true
+
     echo "==> Starting Minecraft server ${JAR}..."
-    exec java \
+    java \
       {{ .Values.minecraft.jvmOpts }} \
       -jar "${JAR}" \
-      nogui
+      nogui < "${FIFO}" &
+    MC_PID=$!
+
+    # FD 3 hält die Pipe offen – ohne das würde der Server sofort EOF bekommen
+    exec 3>"${FIFO}"
+
+    wait ${MC_PID}
+    EXIT_CODE=$?
+    exec 3>&-
+    exit ${EXIT_CODE}
 
   {{- if .Values.neoforge.enabled }}
+  start-neoforge.sh: |
+    #!/bin/sh
+    set -eu
+    FIFO="/tmp/mc-stdin"
+
+    echo "==> Creating command FIFO at ${FIFO}..."
+    mkfifo "${FIFO}" 2>/dev/null || true
+
+    echo "==> Starting NeoForge server via run.sh..."
+    /bin/sh /data/run.sh < "${FIFO}" &
+    MC_PID=$!
+
+    exec 3>"${FIFO}"
+
+    wait ${MC_PID}
+    EXIT_CODE=$?
+    exec 3>&-
+    exit ${EXIT_CODE}
+
   user_jvm_args.txt: |
     # JVM arguments managed by Helm – do not edit manually.
     {{ .Values.neoforge.userJvmArgs | nindent 4 }}

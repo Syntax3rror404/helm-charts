@@ -216,20 +216,27 @@ spec:
           {{- if .Values.neoforge.enabled }}
           command:
             - /bin/sh
-            - /data/run.sh
+            - /config/start-neoforge.sh
           args: []
           {{- else }}
           command:
-            - java
-          args:
-            {{- range (splitList " " .Values.minecraft.jvmOpts) }}
-            - {{ . | quote }}
-            {{- end }}
-            - "-jar"
-            - "/data/{{ .Values.minecraft.jarFilename }}"
-            - "nogui"
+            - /bin/sh
+            - /config/start.sh
+          args: []
           {{- end }}
           workingDir: /data
+          # ── Lifecycle ───────────────────────────────────────────────
+          lifecycle:
+            preStop:
+              exec:
+                command:
+                  - /bin/sh
+                  - -c
+                  - |
+                    echo "==> Sending stop command to Minecraft server..."
+                    echo "stop" > /tmp/mc-stdin
+                    echo "==> Waiting for server to shut down gracefully..."
+                    sleep {{ .Values.terminationGracePeriodSeconds | int | add -10 }}
           # ── Ports ───────────────────────────────────────────────────
           ports:
             - name: minecraft
@@ -278,7 +285,9 @@ spec:
               mountPath: /data
             - name: tmp
               mountPath: /tmp
-
+            - name: config
+              mountPath: /config
+              readOnly: true
       # ── Volumes ────────────────────────────────────────────────────
       volumes:
         - name: config
@@ -303,7 +312,7 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
 
-      terminationGracePeriodSeconds: 60
+      terminationGracePeriodSeconds: {{ .Values.terminationGracePeriodSeconds }}
 
   # ── Volume Claim Templates ──────────────────────────────────────────
   {{- if .Values.persistence.enabled }}
