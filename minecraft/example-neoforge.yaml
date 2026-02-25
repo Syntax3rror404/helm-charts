@@ -1,0 +1,21 @@
+
+# helm install minecraft . -n minecraft-test -f example-neoforge.yaml --create-namespace
+---
+service:
+  port: 25565
+  labels:
+    lb.cilium.io/pool: general
+
+persistence:
+  enabled: true
+  storageClass: "longhorn-staging"
+
+neoforge:
+  enabled: true
+  version: "21.1.219"
+
+minecraft:
+  eulaAccepted: true
+  serverProperties:
+    levelName: "modded-world"
+    whiteList: "false"
