@@ -186,9 +186,7 @@ spec:
               echo "eula={{ .Values.minecraft.eulaAccepted }}" > /data/eula.txt
               {{- if .Values.neoforge.enabled }}
               echo "==> Writing user_jvm_args.txt..."
-              cat > /data/user_jvm_args.txt << 'EOF'
-              {{ .Values.neoforge.userJvmArgs }}
-              EOF
+              echo "{{ .Values.neoforge.userJvmArgs }}" > /data/user_jvm_args.txt
               {{- end }}
               echo "==> Init done."
           volumeMounts:
@@ -227,6 +225,13 @@ spec:
               java {{ .Values.minecraft.jvmOpts }} -jar /data/{{ .Values.minecraft.jarFilename }} nogui
               {{- end }}
           workingDir: /data
+          lifecycle:
+            preStop:
+              exec:
+                command:
+                  - /bin/sh
+                  - -c
+                  - "echo 'stop' > /tmp/mc-stdin && sleep 20"
           # ── Ports ───────────────────────────────────────────────────
           ports:
             - name: minecraft
