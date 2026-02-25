@@ -186,7 +186,9 @@ spec:
               echo "eula={{ .Values.minecraft.eulaAccepted }}" > /data/eula.txt
               {{- if .Values.neoforge.enabled }}
               echo "==> Writing user_jvm_args.txt..."
-              echo "{{ .Values.neoforge.userJvmArgs }}" > /data/user_jvm_args.txt
+              cat > /data/user_jvm_args.txt << 'EOF'
+              {{ .Values.neoforge.userJvmArgs }}
+              EOF
               {{- end }}
               echo "==> Init done."
           volumeMounts:
@@ -231,7 +233,7 @@ spec:
                 command:
                   - /bin/sh
                   - -c
-                  - "echo 'stop' > /tmp/mc-stdin && sleep 20"
+                  - echo "stop" > /tmp/mc-stdin && sleep 20
           # ── Ports ───────────────────────────────────────────────────
           ports:
             - name: minecraft
