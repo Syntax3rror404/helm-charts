@@ -13,7 +13,7 @@ minecraft:
   jarFilename: "server.jar"
   # EULA – must be set to true to run a Minecraft server
   eulaAccepted: false
-  jvmOpts: "-Xms1G -Xmx4G -XX:+UseG1GC -XX:+ParallelRefProcEnabled -XX:MaxGCPauseMillis=200 -XX:+UnlockExperimentalVMOptions -XX:+DisableExplicitGC"
+  jvmOpts: "-Xms256M -Xmx4G -XX:+UseG1GC -XX:+ParallelRefProcEnabled -XX:MaxGCPauseMillis=200 -XX:+UnlockExperimentalVMOptions -XX:+DisableExplicitGC"
   serverProperties:
     motd: "A Kubernetes Minecraft Server"
     maxPlayers: "20"
