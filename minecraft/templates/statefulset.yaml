@@ -233,7 +233,11 @@ spec:
                 command:
                   - /bin/sh
                   - -c
-                  - echo "stop" > /tmp/mc-stdin && sleep 20
+                  - |
+                    echo "stop" > /tmp/mc-stdin
+                    sleep 20
+
+
           # ── Ports ───────────────────────────────────────────────────
           ports:
             - name: minecraft
