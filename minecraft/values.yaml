@@ -33,14 +33,14 @@ neoforge:
   version: "21.1.219"
   installerUrl: ""
   userJvmArgs: |-
-    -Xms1G
-    -Xmx4G
-    -XX:+UseG1GC
-    -XX:+ParallelRefProcEnabled
-    -XX:MaxGCPauseMillis=200
-    -XX:+UnlockExperimentalVMOptions
-    -XX:+DisableExplicitGC
-    -Djava.io.tmpdir=/tmp
+    -Xms256M 
+    -Xmx4G 
+    -XX:+UnlockExperimentalVMOptions 
+    -XX:+UseG1GC 
+    -XX:G1NewSizePercent=20 
+    -XX:G1ReservePercent=20 
+    -XX:MaxGCPauseMillis=50 
+    -XX:G1HeapRegionSize=32M
 
 service:
   type: LoadBalancer
