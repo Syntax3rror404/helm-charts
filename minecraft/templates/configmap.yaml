@@ -27,30 +27,3 @@ data:
     enable-rcon=true
     rcon.port={{ .Values.rcon.port }}
     {{- end }}
-
-  # Startup script run inside the container
-  start.sh: |
-    #!/bin/sh
-    set -eu
-    DATA_DIR="/data"
-    JAR="${DATA_DIR}/{{ .Values.minecraft.jarFilename }}"
-
-    echo "==> Copying server.properties if not already present..."
-    if [ ! -f "${DATA_DIR}/server.properties" ]; then
-      cp /config/server.properties "${DATA_DIR}/server.properties"
-    fi
-
-    echo "==> Writing eula.txt..."
-    echo "eula={{ .Values.minecraft.eulaAccepted }}" > "${DATA_DIR}/eula.txt"
-
-    echo "==> Starting Minecraft server ${JAR}..."
-    exec java \
-      {{ .Values.minecraft.jvmOpts }} \
-      -jar "${JAR}" \
-      nogui
-
-  {{- if .Values.neoforge.enabled }}
-  user_jvm_args.txt: |
-    # JVM arguments managed by Helm – do not edit manually.
-    {{ .Values.neoforge.userJvmArgs | nindent 4 }}
-  {{- end }}
