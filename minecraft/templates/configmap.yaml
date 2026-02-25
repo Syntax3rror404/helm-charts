@@ -7,7 +7,7 @@ metadata:
   labels:
     {{- include "minecraft.labels" . | nindent 4 }}
 data:
-  # server.properties – written by the init-config init container
+  # server.properties – copied to /data by init-config (Minecraft rewrites it at runtime)
   server.properties: |
     #Minecraft server properties (managed by Helm)
     motd={{ .Values.minecraft.serverProperties.motd }}
@@ -28,41 +28,31 @@ data:
     rcon.port={{ .Values.rcon.port }}
     {{- end }}
 
-  # Startup script run inside the container
+  {{- if not .Values.neoforge.enabled }}
+  # Vanilla startup script – JVM flags passed directly, no extra files needed
   start.sh: |
     #!/bin/sh
     set -eu
-    DATA_DIR="/data"
-    JAR="${DATA_DIR}/{{ .Values.minecraft.jarFilename }}"
     FIFO="/tmp/mc-stdin"
-
-    echo "==> Copying server.properties if not already present..."
-    if [ ! -f "${DATA_DIR}/server.properties" ]; then
-      cp /config/server.properties "${DATA_DIR}/server.properties"
-    fi
-
-    echo "==> Writing eula.txt..."
-    echo "eula={{ .Values.minecraft.eulaAccepted }}" > "${DATA_DIR}/eula.txt"
 
     echo "==> Creating command FIFO at ${FIFO}..."
     mkfifo "${FIFO}" 2>/dev/null || true
 
-    echo "==> Starting Minecraft server ${JAR}..."
+    echo "==> Starting Minecraft server..."
     java \
       {{ .Values.minecraft.jvmOpts }} \
-      -jar "${JAR}" \
+      -jar "/data/{{ .Values.minecraft.jarFilename }}" \
       nogui < "${FIFO}" &
     MC_PID=$!
 
-    # FD 3 hält die Pipe offen – ohne das würde der Server sofort EOF bekommen
     exec 3>"${FIFO}"
-
     wait ${MC_PID}
     EXIT_CODE=$?
     exec 3>&-
     exit ${EXIT_CODE}
 
-  {{- if .Values.neoforge.enabled }}
+  {{- else }}
+  # NeoForge startup script – run.sh reads user_jvm_args.txt which is mounted from this ConfigMap
   start-neoforge.sh: |
     #!/bin/sh
     set -eu
@@ -76,13 +66,13 @@ data:
     MC_PID=$!
 
     exec 3>"${FIFO}"
-
     wait ${MC_PID}
     EXIT_CODE=$?
     exec 3>&-
     exit ${EXIT_CODE}
 
+  # Mounted directly to /data/user_jvm_args.txt via subPath.
+  # NeoForge's run.sh passes this file to java via @user_jvm_args.txt – read-only, never written by the server.
   user_jvm_args.txt: |
-    # JVM arguments managed by Helm – do not edit manually.
-    {{ .Values.neoforge.userJvmArgs | nindent 4 }}
+    {{ .Values.minecraft.jvmOpts }}
   {{- end }}

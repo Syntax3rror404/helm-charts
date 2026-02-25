@@ -13,6 +13,7 @@ minecraft:
   jarFilename: "server.jar"
   # EULA – must be set to true to run a Minecraft server
   eulaAccepted: false
+  # JVM flags – used directly for vanilla, written to user_jvm_args.txt for NeoForge
   jvmOpts: "-Xms256M -Xmx4G -XX:+UnlockExperimentalVMOptions -XX:+UseG1GC -XX:G1NewSizePercent=20 -XX:G1ReservePercent=20 -XX:MaxGCPauseMillis=50 -XX:G1HeapRegionSize=32M"
   serverProperties:
     motd: "A Kubernetes Minecraft Server"
@@ -31,16 +32,8 @@ minecraft:
 neoforge:
   enabled: false
   version: "21.1.219"
+  # Override to use a custom installer URL; auto-built from version if empty
   installerUrl: ""
-  userJvmArgs: |-
-    -Xms256M 
-    -Xmx4G 
-    -XX:+UnlockExperimentalVMOptions 
-    -XX:+UseG1GC 
-    -XX:G1NewSizePercent=20 
-    -XX:G1ReservePercent=20 
-    -XX:MaxGCPauseMillis=50 
-    -XX:G1HeapRegionSize=32M
 
 service:
   type: LoadBalancer
@@ -57,7 +50,6 @@ persistence:
   accessModes:
     - ReadWriteOnce
   size: 10Gi
-  # Provide an existing PVC name to reuse data
   existingClaim: ""
 
 # Resource requests & limits
@@ -70,7 +62,6 @@ resources:
     memory: "4Gi"
 
 securityContext:
-  # Pod-level security context
   pod:
     runAsNonRoot: true
     runAsUser: 1000
@@ -78,10 +69,9 @@ securityContext:
     fsGroup: 1000
     seccompProfile:
       type: RuntimeDefault
-  # Container-level security context
   container:
     allowPrivilegeEscalation: false
-    readOnlyRootFilesystem: false   # server writes logs/worlds to /data
+    readOnlyRootFilesystem: false
     capabilities:
       drop:
         - ALL
@@ -124,7 +114,6 @@ nodeSelector: {}
 tolerations: []
 affinity: {}
 
-
 # Extra environment variables injected into the server container
 extraEnv: []
 # - name: MY_VAR
@@ -132,12 +121,11 @@ extraEnv: []
 
 # Optional RCON password from an existing Secret
 existingRconSecret: ""
-# secretKey: rcon-password
 
 serviceAccount:
   create: true
   annotations: {}
   name: ""
 
-# Time for gracefull shutdown
+# Time for graceful shutdown
 terminationGracePeriodSeconds: 90

@@ -24,7 +24,6 @@ spec:
     spec:
       serviceAccountName: {{ include "minecraft.serviceAccountName" . }}
       automountServiceAccountToken: false
-      # ── Pod-level Security Context ─────────────────────────────────
       securityContext:
         {{- toYaml .Values.securityContext.pod | nindent 8 }}
 
@@ -32,7 +31,7 @@ spec:
       initContainers:
 
         {{- if .Values.neoforge.enabled }}
-        # NeoForge 1/2: Download
+        # NeoForge 1/2: Download installer
         - name: download-neoforge-installer
           image: "{{ .Values.initContainer.image.repository }}:{{ .Values.initContainer.image.tag }}"
           imagePullPolicy: {{ .Values.initContainer.image.pullPolicy }}
@@ -76,7 +75,7 @@ spec:
             - name: data
               mountPath: /data
 
-        # NeoForge 2/2: Install
+        # NeoForge 2/2: Run installer
         - name: install-neoforge
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
@@ -104,15 +103,14 @@ spec:
             - -c
             - |
               set -eu
-              DATA_DIR="/data"
-              INSTALLER_JAR="${DATA_DIR}/neoforge-installer.jar"
-              SENTINEL="${DATA_DIR}/run.sh"
+              INSTALLER_JAR="/data/neoforge-installer.jar"
+              SENTINEL="/data/run.sh"
 
               if [ -f "${SENTINEL}" ]; then
-                echo "==> NeoForge ${NEOFORGE_VERSION} already installed (run.sh present), skipping."
+                echo "==> NeoForge ${NEOFORGE_VERSION} already installed, skipping."
               else
                 echo "==> Running NeoForge installer..."
-                cd "${DATA_DIR}"
+                cd /data
                 java -jar "${INSTALLER_JAR}" --installServer . 2>&1
                 rm -f "${INSTALLER_JAR}"
                 echo "==> NeoForge installation complete."
@@ -124,7 +122,7 @@ spec:
               mountPath: /tmp
 
         {{- else }}
-        # Vanilla: server.jar herunterladen falls nicht vorhanden
+        # Vanilla: download server.jar if not present
         - name: download-jar
           image: "{{ .Values.initContainer.image.repository }}:{{ .Values.initContainer.image.tag }}"
           imagePullPolicy: {{ .Values.initContainer.image.pullPolicy }}
@@ -148,7 +146,7 @@ spec:
               if [ -f "${JAR}" ]; then
                 echo "==> Server JAR already present, skipping download."
               else
-                echo "==> Server JAR not found – downloading {{ .Values.minecraft.jarUrl }}..."
+                echo "==> Downloading {{ .Values.minecraft.jarUrl }}..."
                 curl \
                   --silent --show-error --fail --location \
                   --retry 5 --retry-delay 5 \
@@ -160,10 +158,11 @@ spec:
           volumeMounts:
             - name: data
               mountPath: /data
-
         {{- end }}
 
-        # Config-Sync läuft immer (vanilla + NeoForge)
+        # Always: copy server.properties + write eula.txt
+        # Both files are rewritten by the Minecraft server at runtime, so they
+        # must live on the writable PVC – a read-only ConfigMap mount won't work.
         - name: init-config
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
@@ -185,10 +184,6 @@ spec:
               cp /config/server.properties /data/server.properties
               echo "==> Writing eula.txt (eula={{ .Values.minecraft.eulaAccepted }})..."
               echo "eula={{ .Values.minecraft.eulaAccepted }}" > /data/eula.txt
-              {{- if .Values.neoforge.enabled }}
-              echo "==> Syncing user_jvm_args.txt..."
-              cp /config/user_jvm_args.txt /data/user_jvm_args.txt
-              {{- end }}
               echo "==> Init done."
           volumeMounts:
             - name: data
@@ -209,23 +204,14 @@ spec:
         - name: minecraft
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
-          # ── Container Security Context ──────────────────────────────
           securityContext:
             {{- toYaml .Values.securityContext.container | nindent 12 }}
-          # ── Command ─────────────────────────────────────────────────
           {{- if .Values.neoforge.enabled }}
-          command:
-            - /bin/sh
-            - /config/start-neoforge.sh
-          args: []
+          command: ["/bin/sh", "/config/start-neoforge.sh"]
           {{- else }}
-          command:
-            - /bin/sh
-            - /config/start.sh
-          args: []
+          command: ["/bin/sh", "/config/start.sh"]
           {{- end }}
           workingDir: /data
-          # ── Lifecycle ───────────────────────────────────────────────
           lifecycle:
             preStop:
               exec:
@@ -233,11 +219,16 @@ spec:
                   - /bin/sh
                   - -c
                   - |
-                    echo "==> Sending stop command to Minecraft server..."
+                    echo "say Kubernetes System: Shutdown scheduled in 10 seconds ..." > /tmp/mc-stdin
+                    sleep 1
+                    i=9
+                    while [ $i -gt 0 ]; do
+                      echo "say Kubernetes System: $i" > /tmp/mc-stdin
+                      sleep 1
+                      i=$((i - 1))
+                    done
                     echo "stop" > /tmp/mc-stdin
-                    echo "==> Waiting for server to shut down gracefully..."
                     sleep {{ .Values.terminationGracePeriodSeconds | int | add -10 }}
-          # ── Ports ───────────────────────────────────────────────────
           ports:
             - name: minecraft
               containerPort: 25565
@@ -247,7 +238,6 @@ spec:
               containerPort: {{ .Values.rcon.port }}
               protocol: TCP
             {{- end }}
-          # ── Environment ─────────────────────────────────────────────
           env:
             - name: JAVA_TOOL_OPTIONS
               value: "-Djava.io.tmpdir=/tmp"
@@ -261,7 +251,6 @@ spec:
             {{- with .Values.extraEnv }}
             {{- toYaml . | nindent 12 }}
             {{- end }}
-          # ── Probes ──────────────────────────────────────────────────
           livenessProbe:
             tcpSocket:
               port: minecraft
@@ -276,10 +265,8 @@ spec:
             periodSeconds: {{ .Values.probes.readiness.periodSeconds }}
             failureThreshold: {{ .Values.probes.readiness.failureThreshold }}
             timeoutSeconds: {{ .Values.probes.readiness.timeoutSeconds }}
-          # ── Resources ───────────────────────────────────────────────
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
-          # ── Volume Mounts ────────────────────────────────────────────
           volumeMounts:
             - name: data
               mountPath: /data
@@ -288,6 +275,15 @@ spec:
             - name: config
               mountPath: /config
               readOnly: true
+            {{- if .Values.neoforge.enabled }}
+            # Mount user_jvm_args.txt directly from ConfigMap into /data.
+            # NeoForge's run.sh passes it to java via @user_jvm_args.txt – read-only is fine.
+            - name: config
+              mountPath: /data/user_jvm_args.txt
+              subPath: user_jvm_args.txt
+              readOnly: true
+            {{- end }}
+
       # ── Volumes ────────────────────────────────────────────────────
       volumes:
         - name: config
@@ -332,5 +328,4 @@ spec:
             storage: {{ .Values.persistence.size }}
   {{- else }}
   # Persistence disabled – data lives in an emptyDir (lost on pod restart!)
-  # Enable persistence in values.yaml for production use.
   {{- end }}
