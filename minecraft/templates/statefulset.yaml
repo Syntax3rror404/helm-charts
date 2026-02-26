@@ -375,7 +375,7 @@ spec:
     - metadata:
         name: data
         labels:
-          {{- include "minecraft.labels" . | nindent 10 }}
+          {{- include "minecraft.selectorLabels" . | nindent 10 }}
       spec:
         accessModes:
           {{- toYaml .Values.persistence.accessModes | nindent 10 }}
