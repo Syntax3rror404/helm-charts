@@ -36,14 +36,7 @@ spec:
           image: "{{ .Values.initContainer.image.repository }}:{{ .Values.initContainer.image.tag }}"
           imagePullPolicy: {{ .Values.initContainer.image.pullPolicy }}
           securityContext:
-            runAsNonRoot: true
-            runAsUser: 1000
-            runAsGroup: 1000
-            allowPrivilegeEscalation: false
-            readOnlyRootFilesystem: true
-            capabilities:
-              drop:
-                - ALL
+            {{- toYaml (merge (dict "readOnlyRootFilesystem" true) .Values.securityContext.initContainer) | nindent 12 }}
           resources:
             {{- toYaml .Values.initContainer.resources | nindent 12 }}
           env:
@@ -84,21 +77,9 @@ spec:
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           securityContext:
-            runAsNonRoot: true
-            runAsUser: 1000
-            runAsGroup: 1000
-            allowPrivilegeEscalation: false
-            readOnlyRootFilesystem: false
-            capabilities:
-              drop:
-                - ALL
+            {{- toYaml (merge (dict "readOnlyRootFilesystem" false) .Values.securityContext.initContainer) | nindent 12 }}
           resources:
-            requests:
-              cpu: "500m"
-              memory: "512Mi"
-            limits:
-              cpu: "1000m"
-              memory: "1Gi"
+            {{- toYaml .Values.initContainer.installResources | nindent 12 }}
           env:
             - name: NEOFORGE_VERSION
               value: {{ .Values.neoforge.version | quote }}
@@ -135,14 +116,7 @@ spec:
           image: "{{ .Values.initContainer.image.repository }}:{{ .Values.initContainer.image.tag }}"
           imagePullPolicy: {{ .Values.initContainer.image.pullPolicy }}
           securityContext:
-            runAsNonRoot: true
-            runAsUser: 1000
-            runAsGroup: 1000
-            allowPrivilegeEscalation: false
-            readOnlyRootFilesystem: true
-            capabilities:
-              drop:
-                - ALL
+            {{- toYaml (merge (dict "readOnlyRootFilesystem" true) .Values.securityContext.initContainer) | nindent 12 }}
           resources:
             {{- toYaml .Values.initContainer.resources | nindent 12 }}
           command:
@@ -180,14 +154,9 @@ spec:
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           securityContext:
-            runAsNonRoot: true
-            runAsUser: 1000
-            runAsGroup: 1000
-            allowPrivilegeEscalation: false
-            readOnlyRootFilesystem: false
-            capabilities:
-              drop:
-                - ALL
+            {{- toYaml (merge (dict "readOnlyRootFilesystem" false) .Values.securityContext.initContainer) | nindent 12 }}
+          resources:
+            {{- toYaml .Values.initContainer.configResources | nindent 12 }}
           command:
             - /bin/sh
             - -c
@@ -210,13 +179,6 @@ spec:
             - name: config
               mountPath: /config
               readOnly: true
-          resources:
-            requests:
-              cpu: "50m"
-              memory: "32Mi"
-            limits:
-              cpu: "100m"
-              memory: "64Mi"
 
       ##-- Main Container ##########################################───
       containers:

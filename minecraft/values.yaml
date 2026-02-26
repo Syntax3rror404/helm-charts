@@ -28,7 +28,7 @@ minecraft:
     enableCommandBlock: "false"
     levelName: "world"
     whiteList: "false"
-    
+
 neoforge:
   enabled: false
   version: "21.1.219"
@@ -75,13 +75,26 @@ securityContext:
     capabilities:
       drop:
         - ALL
+  # Shared base for every init container.
+  # readOnlyRootFilesystem is added per-container in the template:
+  #   true  → download steps (curl, read-only fs sufficient)
+  #   false → install/config steps (need to write to /data or /tmp)
+  initContainer:
+    runAsNonRoot: true
+    runAsUser: 1000
+    runAsGroup: 1000
+    allowPrivilegeEscalation: false
+    capabilities:
+      drop:
+        - ALL
 
-# Init container – downloads JAR only if missing
+# Init container (curl) – downloads JAR / NeoForge installer
 initContainer:
   image:
     repository: docker.io/curlimages/curl
     tag: "8.7.1"
     pullPolicy: IfNotPresent
+  # Resources for the curl-based download init containers
   resources:
     requests:
       cpu: "100m"
@@ -89,6 +102,22 @@ initContainer:
     limits:
       cpu: "200m"
       memory: "128Mi"
+  # Resources for the JRE-based NeoForge installer step
+  installResources:
+    requests:
+      cpu: "500m"
+      memory: "512Mi"
+    limits:
+      cpu: "1000m"
+      memory: "1Gi"
+  # Resources for the init-config step (copy server.properties + eula.txt)
+  configResources:
+    requests:
+      cpu: "50m"
+      memory: "32Mi"
+    limits:
+      cpu: "100m"
+      memory: "64Mi"
 
 # Liveness & Readiness probes via TCP socket on the game port
 probes:
