@@ -28,51 +28,8 @@ data:
     rcon.port={{ .Values.rcon.port }}
     {{- end }}
 
-  {{- if not .Values.neoforge.enabled }}
-  # Vanilla startup script – JVM flags passed directly, no extra files needed
-  start.sh: |
-    #!/bin/sh
-    set -eu
-    FIFO="/tmp/mc-stdin"
-
-    echo "==> Creating command FIFO at ${FIFO}..."
-    mkfifo "${FIFO}" 2>/dev/null || true
-
-    echo "==> Starting Minecraft server..."
-    java \
-      {{ .Values.minecraft.jvmOpts }} \
-      -jar "/data/{{ .Values.minecraft.jarFilename }}" \
-      nogui < "${FIFO}" &
-    MC_PID=$!
-
-    exec 3>"${FIFO}"
-    wait ${MC_PID}
-    EXIT_CODE=$?
-    exec 3>&-
-    exit ${EXIT_CODE}
-
-  {{- else }}
-  # NeoForge startup script – run.sh reads user_jvm_args.txt which is mounted from this ConfigMap
-  start-neoforge.sh: |
-    #!/bin/sh
-    set -eu
-    FIFO="/tmp/mc-stdin"
-
-    echo "==> Creating command FIFO at ${FIFO}..."
-    mkfifo "${FIFO}" 2>/dev/null || true
-
-    echo "==> Starting NeoForge server via run.sh..."
-    /bin/sh /data/run.sh < "${FIFO}" &
-    MC_PID=$!
-
-    exec 3>"${FIFO}"
-    wait ${MC_PID}
-    EXIT_CODE=$?
-    exec 3>&-
-    exit ${EXIT_CODE}
-
+  {{- if .Values.neoforge.enabled }}
   # Mounted directly to /data/user_jvm_args.txt via subPath.
-  # NeoForge's run.sh passes this file to java via @user_jvm_args.txt – read-only, never written by the server.
   user_jvm_args.txt: |
     {{ .Values.minecraft.jvmOpts }}
   {{- end }}
