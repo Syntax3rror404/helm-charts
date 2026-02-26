@@ -27,7 +27,7 @@ spec:
       securityContext:
         {{- toYaml .Values.securityContext.pod | nindent 8 }}
 
-      # ── Init Containers ────────────────────────────────────────────
+      ##-- Init Containers ##########################################──
       initContainers:
 
         {{- if .Values.neoforge.enabled }}
@@ -199,7 +199,7 @@ spec:
               cpu: "100m"
               memory: "64Mi"
 
-      # ── Main Container ─────────────────────────────────────────────
+      ##-- Main Container ##########################################───
       containers:
         - name: minecraft
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
@@ -284,7 +284,7 @@ spec:
               readOnly: true
             {{- end }}
 
-      # ── Volumes ────────────────────────────────────────────────────
+      ##-- Volumes ##########################################──────────
       volumes:
         - name: config
           configMap:
@@ -310,7 +310,7 @@ spec:
 
       terminationGracePeriodSeconds: {{ .Values.terminationGracePeriodSeconds }}
 
-  # ── Volume Claim Templates ──────────────────────────────────────────
+  ##-- Volume Claim Templates ##########################################
   {{- if .Values.persistence.enabled }}
   volumeClaimTemplates:
     - metadata:
