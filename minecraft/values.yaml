@@ -3,7 +3,7 @@ replicaCount: 1
 image:
   # Eclipse Temurin (OpenJDK) – production-grade, rootless
   repository: docker.io/eclipse-temurin
-  tag: "21.0.10_7-jre-alpine-3.23"
+  tag: "25.0.2_10-jre-alpine-3.23"
   pullPolicy: IfNotPresent
 
 # Minecraft Server JAR settings
@@ -14,7 +14,7 @@ minecraft:
   # EULA – must be set to true to run a Minecraft server
   eulaAccepted: false
   # JVM flags – used directly for vanilla, written to user_jvm_args.txt for NeoForge
-  jvmOpts: "-Xms1G -Xmx4G -XX:+UseG1GC -XX:+ParallelRefProcEnabled -XX:MaxGCPauseMillis=200 -XX:+UnlockExperimentalVMOptions -XX:+DisableExplicitGC -XX:+AlwaysPreTouch -XX:G1NewSizePercent=10 -XX:G1MaxNewSizePercent=40 -XX:G1HeapRegionSize=16M -XX:G1ReservePercent=10 -XX:InitiatingHeapOccupancyPercent=15 -XX:+UseStringDeduplication -XX:+OptimizeStringConcat"
+  jvmOpts: "-Xms1G -Xmx4G -XX:+UseCompactObjectHeaders -XX:+UseG1GC -XX:+ParallelRefProcEnabled -XX:MaxGCPauseMillis=200 -XX:+UnlockExperimentalVMOptions -XX:+DisableExplicitGC -XX:+AlwaysPreTouch -XX:G1NewSizePercent=10 -XX:G1MaxNewSizePercent=40 -XX:G1HeapRegionSize=16M -XX:G1ReservePercent=10 -XX:InitiatingHeapOccupancyPercent=15 -XX:+UseStringDeduplication -XX:+OptimizeStringConcat"
   serverProperties:
     motd: "A Kubernetes Minecraft Server"
     maxPlayers: "20"
