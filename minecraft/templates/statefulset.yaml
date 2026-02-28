@@ -96,7 +96,7 @@ spec:
         # Both files are rewritten by the Minecraft server at runtime, so they
         # must live on the writable PVC – a read-only ConfigMap mount won't work.
         - name: init-config
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          image: "{{ .Values.initContainer.image.repository }}:{{ .Values.initContainer.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           securityContext:
             {{- toYaml (merge (dict "readOnlyRootFilesystem" false) .Values.securityContext.initContainer) | nindent 12 }}
