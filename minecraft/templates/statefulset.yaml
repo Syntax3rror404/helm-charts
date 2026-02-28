@@ -28,7 +28,7 @@ spec:
       securityContext:
         {{- toYaml .Values.securityContext.pod | nindent 8 }}
 
-      ##-- Init Containers ##########################################──
+      ##-- Init Containers ##########################################
       initContainers:
 
         {{- if .Values.neoforge.enabled }}
@@ -113,7 +113,7 @@ spec:
               mountPath: /scripts
               readOnly: true
 
-      ##-- Main Container ##########################################───
+      ##-- Main Container ##########################################
       containers:
         - name: minecraft
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
@@ -181,7 +181,7 @@ spec:
               readOnly: true
             {{- end }}
 
-      ##-- Volumes ##########################################──────────
+      ##-- Volumes ##########################################
       volumes:
         - name: config
           configMap:
