@@ -217,16 +217,6 @@ affinity: {}
 # Extra environment variables to inject into the container
 # Example:
 # extraEnv:
-#   - name: MY_VAR
-#     value: "my-value"
-#   - name: MY_SECRET_VAR
-#     valueFrom:
-#       secretKeyRef:
-#         name: my-secret
-#         key: secret-key
-#   - name: MY_CONFIGMAP_VAR
-#     valueFrom:
-#       configMapKeyRef:
-#         name: my-configmap
-#         key: config-key
+#   - name: PHP_UPLOAD_LIMIT
+#     value: "200"
 extraEnv: []

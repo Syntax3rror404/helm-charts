@@ -11,7 +11,7 @@ image:
   # This sets the pull policy for images.
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: "26.5.3"
+  tag: "26.5.4"
 
 # This is for the secrets for pulling an image from a private repository more information can be found here: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
 imagePullSecrets: []
@@ -87,6 +87,21 @@ ingress:
     #   hosts:
     #     - chart-example.local
 
+httpRoute:
+  enabled: false
+  annotations: {}
+  hostnames:
+    - snipeit.example.com
+  parentRefs:
+    - group: gateway.networking.k8s.io
+      kind: Gateway
+      name: envoy-gateway-external
+      namespace: envoy-gateway-system
+  matches:
+    - path:
+        type: PathPrefix
+        value: /
+        
 # Keycloak admin credentials
 admin:
   username: admin
