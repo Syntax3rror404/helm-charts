@@ -26,9 +26,8 @@ spec:
           name: {{ include "keycloak.fullname" $ }}
           port: {{ .Values.service.port }}
           weight: 1
-      matches:
       {{- with .Values.httpRoute.matches }}
       matches:
-        {{- toYaml . | nindent 8 }}
+      {{- toYaml . | nindent 8 }}
       {{- end }}
 {{- end }}

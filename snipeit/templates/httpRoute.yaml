@@ -6,7 +6,7 @@ metadata:
   name: {{ include "snipeit.fullname" . }}
   labels:
     {{- include "snipeit.labels" . | nindent 4 }}
-  {{- with .Values.ingress.annotations }}
+  {{- with .Values.httpRoute.annotations }}
   annotations:
     {{- toYaml . | nindent 4 }}
   {{- end }}
@@ -27,8 +27,6 @@ spec:
           port: {{ .Values.service.port }}
           weight: 1
       matches:
-      {{- with .Values.httpRoute.matches }}
-      matches:
-        {{- toYaml . | nindent 8 }}
+      {{- toYaml . | nindent 8 }}
       {{- end }}
 {{- end }}

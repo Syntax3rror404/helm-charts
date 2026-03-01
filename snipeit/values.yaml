@@ -157,6 +157,7 @@ ingress:
 
 httpRoute:
   enabled: false
+  annotations: {}
   hostnames:
     - snipeit.example.com
   parentRefs:

@@ -127,6 +127,16 @@ kubectl delete ns snipeit
 | `ingress.hosts` | See values.yaml | Ingress hosts configuration |
 | `ingress.tls` | `[]` | TLS configuration |
 
+### Gateway API Configuration
+
+| Parameter | Default | Description |
+|-----------|---------|-------------|
+| `httpRoute.enabled` | `false` | Enable GW API httpRoute |
+| `httpRoute.annotations` | `{}` | http Route annotations |
+| `httpRoute.hostnames` | `{hostnames: [snipeit.example.com]}` | Hostname |
+| `httpRoute.parentRefs` | See values.yaml | httproute parent ref |
+| `httpRoute.matches` | `See values.yaml` | Match configuration |
+
 ## Configuration Examples
 
 ### Example 1: New MariaDB Instance with Ingress
