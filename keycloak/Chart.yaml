@@ -1,13 +1,13 @@
 apiVersion: v2
 name: keycloak
-description: A Helm chart for Kubernetes which provides keycloak
+description: A Helm chart which provides rootless keycloak with mariadb-operator support
 
 home: https://github.com/Syntax3rror404/helm-charts
 icon: https://commons.wikimedia.org/wiki/File:Keycloak_Logo.png
 
 type: application
 
-version: 0.2.7
+version: 0.2.8
 
 keywords:
 - keycloak
@@ -16,4 +16,4 @@ keywords:
 - Identity provider
 - IAM
 
-appVersion: "26.5.3"
+appVersion: "26.5.5"
