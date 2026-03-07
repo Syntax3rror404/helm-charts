@@ -14,7 +14,7 @@ If you want to install any mods, you can easily use kubectl cp, for example `kub
 
 | Feature | Details |
 |---|---|
-| Base image | `eclipse-temurin:21-jre-alpine` (rootless, minimal) |
+| Base image | `docker.io/eclipse-temurin` (rootless, minimal) |
 | Workload | `StatefulSet` – stable network identity & ordered pods |
 | Persistence | `PersistentVolumeClaim` via `volumeClaimTemplates` |
 | JAR download | Init container (`curlimages/curl`) downloads the server JAR if missing |
