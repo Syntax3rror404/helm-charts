@@ -47,6 +47,10 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           args: {{ .Values.keycloak.args | toJson }}
           env:
+            - name: JAVA_OPTS_KC_HEAP
+              value: {{ .Values.keycloak.javaOptsHeap | quote }}
+            - name: JAVA_OPTS_APPEND
+              value: {{ .Values.keycloak.javaOptsAppend | quote }}
             # Database settings and credentials
             - name: KC_DB
               value: "{{ .Values.database.type }}"
@@ -118,10 +122,13 @@ spec:
             - name: http
               containerPort: {{ .Values.service.port }}
               protocol: TCP
+              
+            {{- if eq .Values.keycloak.cache.type "ispn" }}
             - name: jgroups
               containerPort: 7800
             - name: jgroups-fd
               containerPort: 57800
+            {{- end }}
 
           {{- with .Values.livenessProbe }}
           livenessProbe:
@@ -143,9 +150,6 @@ spec:
             {{- if .Values.themes.enabled }}
             - name: themes
               mountPath: /opt/keycloak/themes
-            {{- end }}
-            {{- with .Values.volumeMounts }}
-            {{- toYaml . | nindent 12 }}
             {{- end }}
 
         {{- if and .Values.themes.enabled .Values.themes.sidecar.enabled }}
@@ -195,7 +199,4 @@ spec:
         - name: themes
           persistentVolumeClaim:
             claimName: {{ if .Values.themes.existingClaim }}{{ .Values.themes.existingClaim }}{{ else }}{{ include "keycloak.fullname" . }}-themes{{ end }}
-        {{- with .Values.volumes }}
-        {{- toYaml . | nindent 8 }}
-        {{- end }}
         {{- end }}

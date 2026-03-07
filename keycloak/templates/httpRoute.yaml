@@ -6,7 +6,7 @@ metadata:
   name: {{ include "keycloak.fullname" . }}
   labels:
     {{- include "keycloak.labels" . | nindent 4 }}
-  {{- with .Values.keycloak.annotations }}
+  {{- with .Values.httpRoute.annotations }}
   annotations:
     {{- toYaml . | nindent 4 }}
   {{- end }}
