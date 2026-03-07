@@ -157,8 +157,18 @@ themes:
 keycloak:
 
   # JVM options
-  javaOptsHeap: "-XX:InitialRAMPercentage=25.0 -XX:MaxRAMPercentage=70.0"
-  javaOptsAppend: "-XX:+UseG1GC -XX:+DisableExplicitGC"
+  javaOptsHeap: >-
+    -XX:InitialRAMPercentage=10.0
+    -XX:MaxRAMPercentage=75.0
+
+  javaOptsAppend: >-
+    -XX:+UseG1GC
+    -XX:+DisableExplicitGC
+    -XX:+ExitOnOutOfMemoryError
+    -XX:G1PeriodicGCInterval=10000
+    -XX:G1PeriodicGCSystemLoadThreshold=0
+    -XX:MinHeapFreeRatio=10
+    -XX:MaxHeapFreeRatio=20
 
   # Proxy configuration (for ingress/load balancer)
   proxy:
