@@ -1,6 +1,6 @@
 apiVersion: v2
 name: keycloak
-description: A Helm chart which provides rootless keycloak with mariadb-operator support
+description: A Helm chart which provides rootless keycloak with mariadb-operator and multi replica support
 
 home: https://github.com/Syntax3rror404/helm-charts
 icon: https://commons.wikimedia.org/wiki/File:Keycloak_Logo.png
