@@ -110,9 +110,11 @@ spec:
                 fieldRef:
                   fieldPath: status.podIP
 
+            {{- if eq .Values.keycloak.cache.type "ispn" }}
             # JGroups bind address
             - name: KC_CACHE_EMBEDDED_NETWORK_BIND_ADDRESS
               value: '$(POD_IP)'
+            {{- end }}
 
             # Relative http path for serving kc
             - name: KC_HTTP_RELATIVE_PATH
