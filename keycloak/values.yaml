@@ -165,7 +165,7 @@ keycloak:
     -XX:+UseG1GC
     -XX:+DisableExplicitGC
     -XX:+ExitOnOutOfMemoryError
-    -XX:G1PeriodicGCInterval=10000
+    -XX:G1PeriodicGCInterval=120000
     -XX:G1PeriodicGCSystemLoadThreshold=0
     -XX:MinHeapFreeRatio=10
     -XX:MaxHeapFreeRatio=20
