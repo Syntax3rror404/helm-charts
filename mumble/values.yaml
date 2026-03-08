@@ -1,6 +1,6 @@
 image:
   repository: ghcr.io/mumble-voip/mumble-server
-  tag: v1.5.857-0
+  tag: v1.6.870
   pullPolicy: IfNotPresent
 
 # Custom labels for all resources
