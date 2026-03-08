@@ -1,7 +1,8 @@
 # Teamspeak Configuration
 teamspeak:
-  image: docker.io/teamspeak
-  tag: 3.13.7
+  image: 
+    repository: docker.io/teamspeak
+    tag: 3.13.7
   licenseAccept: "accept"
   ports:
     udp: 9987

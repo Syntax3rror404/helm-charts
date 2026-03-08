@@ -26,7 +26,7 @@ spec:
           # Container-specific security context
           securityContext:
             {{- toYaml .Values.teamspeak.containerSecurityContext | nindent 12 }}
-          image: "{{ .Values.teamspeak.image }}:{{ .Values.teamspeak.tag }}"
+          image: "{{ .Values.teamspeak.image.repository }}:{{ .Values.teamspeak.image.tag }}"
           ports:
             - containerPort: {{ .Values.teamspeak.ports.udp }}
               protocol: UDP
