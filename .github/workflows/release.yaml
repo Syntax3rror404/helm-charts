@@ -19,6 +19,9 @@ jobs:
           CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
         with:
           charts_dir: .
+          pages_branch: master
+          pages_index_path: charts/index.yaml
+          packages_with_index: true
 
       - name: Login to GHCR
         if: hashFiles('.cr-release-packages/*.tgz') != ''
