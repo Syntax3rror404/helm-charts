@@ -7,13 +7,13 @@ icon: https://upload.wikimedia.org/wikipedia/commons/2/29/Keycloak_Logo.png
 
 type: application
 
-version: 0.2.15
+version: 0.2.16
 
 keywords:
-- keycloak
-- mariadb-operator
-- OIDC
-- Identity provider
-- IAM
+  - keycloak
+  - mariadb-operator
+  - OIDC
+  - Identity provider
+  - IAM
 
-appVersion: "26.5.5"
+appVersion: "26.5.6"

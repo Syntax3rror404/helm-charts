@@ -101,7 +101,7 @@ httpRoute:
     - path:
         type: PathPrefix
         value: /
-        
+
 # Keycloak admin credentials
 admin:
   username: admin
@@ -126,13 +126,13 @@ database:
 themes:
   # Enable custom themes
   enabled: false
-  
+
   # Persistence for themes
   persistence:
-    storageClass: ""  # leave empty for default
-    accessMode: ReadWriteMany  # RWX needed for multiple replicas
+    storageClass: "" # leave empty for default
+    accessMode: ReadWriteMany # RWX needed for multiple replicas
     size: 1Gi
-  
+
   # Alternative: Use existing PVC
   existingClaim: ""
 
@@ -155,7 +155,6 @@ themes:
 
 # Keycloak specific configuration
 keycloak:
-
   # JVM options
   javaOptsHeap: >-
     -XX:InitialRAMPercentage=10.0
@@ -173,10 +172,10 @@ keycloak:
   # Proxy configuration (for ingress/load balancer)
   proxy:
     headers: xforwarded
-  
+
   # Cache configuration
   cache:
-    type: ispn  # ispn (Infinispan) for clustered setup, local for single node
+    type: ispn # ispn (Infinispan) for clustered setup, local for single node
 
   # Hostname configuration
   hostname:
@@ -186,7 +185,7 @@ keycloak:
   httpPath: "/"
 
   # Container args
-  args: 
+  args:
     - start
 
 resources:
@@ -230,4 +229,3 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
-

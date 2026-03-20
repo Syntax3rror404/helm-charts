@@ -67,7 +67,7 @@ spec:
                 secretKeyRef:
                   name: {{ include "keycloak.fullname" . }}-db
                   key: username
-            
+
             - name: KC_DB_PASSWORD
               valueFrom:
                 secretKeyRef:
@@ -80,7 +80,7 @@ spec:
                 secretKeyRef:
                   name: {{ include "keycloak.fullname" . }}-admin
                   key: username
-            
+
             - name: KC_BOOTSTRAP_ADMIN_PASSWORD
               valueFrom:
                 secretKeyRef:
@@ -124,7 +124,7 @@ spec:
             - name: http
               containerPort: {{ .Values.service.port }}
               protocol: TCP
-              
+
             {{- if eq .Values.keycloak.cache.type "ispn" }}
             - name: jgroups
               containerPort: 7800
