@@ -1,0 +1,28 @@
+name: Release Charts
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: helm/chart-releaser-action@v1.6.0
+        id: release
+        env:
+          CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+
+      - name: Login to GHCR
+        run: helm registry login ghcr.io -u ${{ github.actor }} -p ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Push to OCI
+        run: |
+          for chart in .cr-release-packages/*.tgz; do
+            helm push "$chart" oci://ghcr.io/${{ github.repository_owner }}/helm-charts
+          done
