@@ -17,6 +17,8 @@ jobs:
         id: release
         env:
           CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+        with:
+          charts_dir: .
 
       - name: Login to GHCR
         if: hashFiles('.cr-release-packages/*.tgz') != ''
