@@ -111,7 +111,7 @@ snipeit:
   image:
     repository: docker.io/snipe/snipe-it
     pullPolicy: IfNotPresent
-    tag: "v8.4.0-alpine"
+    tag: "v8.4.1-alpine"
 
 imagePullSecrets: []
 nameOverride: ""
@@ -124,7 +124,7 @@ podAnnotations: {}
 # For more information checkout: https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/
 podLabels: {}
 
-podSecurityContext: 
+podSecurityContext:
   runAsUser: 100
   runAsGroup: 101
   fsGroup: 101
@@ -132,7 +132,7 @@ podSecurityContext:
   runAsNonRoot: true
   seccompProfile:
     type: RuntimeDefault
-securityContext: 
+securityContext:
   allowPrivilegeEscalation: false
   capabilities:
     drop: ["ALL"]
