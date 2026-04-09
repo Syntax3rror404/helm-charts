@@ -1,5 +1,6 @@
 # helm install minecraft . -n minecraft-test -f example-vanilla.yaml --create-namespace
----
+# helm upgrade minecraft . -n minecraft-test -f example-vanilla.yaml
+# helm uninstall minecraft -n minecraft-test ; kubectl delete ns minecraft-test
 service:
   port: 25565
   labels:

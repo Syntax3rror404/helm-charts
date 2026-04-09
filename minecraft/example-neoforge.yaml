@@ -1,4 +1,6 @@
 # helm install minecraft . -n minecraft-test -f example-neoforge.yaml --create-namespace
+# helm upgrade minecraft . -n minecraft-test -f example-neoforge.yaml
+# helm uninstall minecraft -n minecraft-test ; kubectl delete ns minecraft-test
 ---
 service:
   port: 25565
