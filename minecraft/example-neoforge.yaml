@@ -1,4 +1,3 @@
-
 # helm install minecraft . -n minecraft-test -f example-neoforge.yaml --create-namespace
 ---
 service:

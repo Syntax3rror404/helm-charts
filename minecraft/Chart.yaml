@@ -3,7 +3,7 @@ apiVersion: v2
 name: minecraft
 description: Helm chart for neoforge (modded) or vanilla Minecraft Java Server
 type: application
-version: 1.2.9
+version: 1.2.10
 appVersion: "1.21.1"
 keywords:
   - minecraft

@@ -14,24 +14,24 @@ minecraft:
   # EULA – must be set to true to run a Minecraft server
   eulaAccepted: false
   # JVM flags – used directly for vanilla, written to user_jvm_args.txt for NeoForge
-  jvmOpts: >- 
+  jvmOpts: >-
     -Xms1G
-    -Xmx4G 
-    -XX:+UseCompactObjectHeaders 
-    -XX:+UseG1GC 
-    -XX:+ParallelRefProcEnabled 
-    -XX:MaxGCPauseMillis=200 
-    -XX:+UnlockExperimentalVMOptions 
-    -XX:+DisableExplicitGC 
-    -XX:+AlwaysPreTouch 
-    -XX:G1NewSizePercent=10 
-    -XX:G1MaxNewSizePercent=40 
-    -XX:G1HeapRegionSize=16M 
-    -XX:G1ReservePercent=10 
-    -XX:InitiatingHeapOccupancyPercent=15 
-    -XX:+UseStringDeduplication 
+    -Xmx4G
+    -XX:+UseCompactObjectHeaders
+    -XX:+UseG1GC
+    -XX:+ParallelRefProcEnabled
+    -XX:MaxGCPauseMillis=200
+    -XX:+UnlockExperimentalVMOptions
+    -XX:+DisableExplicitGC
+    -XX:+AlwaysPreTouch
+    -XX:G1NewSizePercent=10
+    -XX:G1MaxNewSizePercent=40
+    -XX:G1HeapRegionSize=16M
+    -XX:G1ReservePercent=10
+    -XX:InitiatingHeapOccupancyPercent=15
+    -XX:+UseStringDeduplication
     -XX:+OptimizeStringConcat
-    
+
   serverProperties:
     motd: "A Kubernetes Minecraft Server"
     maxPlayers: "20"
@@ -48,7 +48,7 @@ minecraft:
 
 neoforge:
   enabled: false
-  version: "21.1.219"
+  version: "21.1.224"
   # Override to use a custom installer URL; auto-built from version if empty
   installerUrl: ""
 
@@ -63,7 +63,7 @@ service:
 # Persistent storage for /data (world, configs, mods, etc.)
 persistence:
   enabled: true
-  storageClass: ""   # leave empty to use cluster default
+  storageClass: "" # leave empty to use cluster default
   accessModes:
     - ReadWriteOnce
   size: 10Gi
@@ -153,7 +153,7 @@ probes:
 rcon:
   enabled: false
   port: 25575
-  password: "changeme"   # put this in a Secret in production!
+  password: "changeme" # put this in a Secret in production!
 
 # Pod scheduling
 nodeSelector: {}
