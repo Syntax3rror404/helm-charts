@@ -1,6 +1,6 @@
 # Teamspeak Configuration
 teamspeak:
-  image: 
+  image:
     repository: docker.io/teamspeak
     tag: 3.13.7
   licenseAccept: "accept"
@@ -15,7 +15,7 @@ teamspeak:
     runAsUser: 1000
     runAsGroup: 1000
     runAsNonRoot: true
-    
+
   containerSecurityContext:
     allowPrivilegeEscalation: false
     capabilities:

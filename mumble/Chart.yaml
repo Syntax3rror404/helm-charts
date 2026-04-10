@@ -10,8 +10,8 @@ version: 1.0.2
 appVersion: "v1.6.870"
 
 keywords:
-- mumble
-- voip
+  - mumble
+  - voip
 
 sources:
-- https://github.com/mumble-voip/mumble-docker
+  - https://github.com/mumble-voip/mumble-docker

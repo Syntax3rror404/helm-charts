@@ -62,7 +62,7 @@ spec:
 
             echo "Create secret..."
             kubectl create secret generic $SECRET_NAME --from-literal=APP_KEY="$APP_KEY"
-            
+
             echo "Add labels to secret..."
             kubectl label secret $SECRET_NAME \
               "helm.sh/chart={{ include "snipeit.chart" . }}" \

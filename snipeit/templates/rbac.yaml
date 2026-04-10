@@ -9,17 +9,17 @@ kind: Role
 metadata:
   name: secret-manager
 rules:
-- apiGroups: [""]
-  resources: ["secrets"]
-  verbs: ["get", "create", "update"]
+  - apiGroups: [""]
+    resources: ["secrets"]
+    verbs: ["get", "create", "update"]
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
   name: secret-manager-binding
 subjects:
-- kind: ServiceAccount
-  name: laravel-key-generator-sa
+  - kind: ServiceAccount
+    name: laravel-key-generator-sa
 roleRef:
   kind: Role
   name: secret-manager

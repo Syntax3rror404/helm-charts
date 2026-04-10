@@ -57,6 +57,3 @@ spec:
   externalIPs:
     {{- toYaml .Values.headlessService.externalIPs | nindent 4 }}
   {{- end }}
-
-
-
