@@ -109,7 +109,7 @@ securityContext:
 initContainer:
   image:
     repository: docker.io/alpine/curl
-    tag: "8.17.0"
+    tag: "8.19.0"
     pullPolicy: IfNotPresent
   # Resources for the curl-based download init containers
   resources:
