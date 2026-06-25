@@ -40,23 +40,21 @@ helm install mariadb-operator mariadb-operator/mariadb-operator
 
 ## Installation
 
-### Quick Start
+### HTTPS
 
 ```bash
-# Add the Helm repository
 helm repo add syntax3rror404 https://syntax3rror404.github.io/helm-charts/charts
+helm repo update
+helm install snipeit syntax3rror404/snipeit -n snipeit --create-namespace -f myvalues.yaml
+```
 
-# Install with default values
-helm install snipeit syntax3rror404/snipeit -n snipeit --create-namespace
+### OCI
+
+```bash
+helm install snipeit oci://ghcr.io/syntax3rror404/helm-charts/snipeit --version <version> -n snipeit --create-namespace -f myvalues.yaml
 ```
 
 **Note**: A simple install uses default values like `example.com` for URLs and default passwords. **You must create your own values file for production use.**
-
-### Installation with Custom Values
-
-```bash
-helm install snipeit syntax3rror404/snipeit -n snipeit --create-namespace -f myvalues.yaml
-```
 
 ## Upgrade
 

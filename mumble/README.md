@@ -24,23 +24,21 @@ This Helm chart deploys a Mumble Server on Kubernetes with persistent storage su
 
 ## Installation
 
-### Quick Start
+### HTTPS
 
 ```bash
-# Add the Helm repository
 helm repo add syntax3rror404 https://syntax3rror404.github.io/helm-charts/charts
+helm repo update
+helm install mumble syntax3rror404/mumble -n mumble --create-namespace -f myvalues.yaml
+```
 
-# Install with default values
-helm install mumble syntax3rror404/mumble -n mumble --create-namespace
+### OCI
+
+```bash
+helm install mumble oci://ghcr.io/syntax3rror404/helm-charts/mumble --version <version> -n mumble --create-namespace -f myvalues.yaml
 ```
 
 **Note**: A simple install uses default values. **You must create your own values file for production use.**
-
-### Installation with Custom Values
-
-```bash
-helm install mumble syntax3rror404/mumble -n mumble --create-namespace -f myvalues.yaml
-```
 
 ## Upgrade
 

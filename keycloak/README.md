@@ -45,23 +45,21 @@ helm install mariadb-operator mariadb-operator/mariadb-operator
 
 ## Installation
 
-### Quick Start
+### HTTPS
 
 ```bash
-# Add the Helm repository
 helm repo add syntax3rror404 https://syntax3rror404.github.io/helm-charts/charts
+helm repo update
+helm install keycloak syntax3rror404/keycloak -n keycloak --create-namespace -f myvalues.yaml
+```
 
-# Install with default values
-helm install keycloak syntax3rror404/keycloak -n keycloak --create-namespace
+### OCI
+
+```bash
+helm install keycloak oci://ghcr.io/syntax3rror404/helm-charts/keycloak --version <version> -n keycloak --create-namespace -f myvalues.yaml
 ```
 
 **Note**: A simple install uses default values like `admin/admin` for credentials. **You must create your own values file for production use.**
-
-### Installation with Custom Values
-
-```bash
-helm install keycloak syntax3rror404/keycloak -n keycloak --create-namespace -f myvalues.yaml
-```
 
 ## Upgrade
 

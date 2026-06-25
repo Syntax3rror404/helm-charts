@@ -23,15 +23,25 @@ If you want to install any mods, you can easily use kubectl cp, for example `kub
 | Networking | Headless + external Service, optional NetworkPolicy |
 | RCON | Optional remote-console with Secret-backed password |
 
+## Installation
+
+### HTTPS
+
+```bash
+helm repo add syntax3rror404 https://syntax3rror404.github.io/helm-charts/charts
+helm repo update
+helm install my-minecraft syntax3rror404/minecraft -n minecraft --create-namespace --set minecraft.eulaAccepted=true -f myvalues.yaml
+```
+
+### OCI
+
+```bash
+helm install my-minecraft oci://ghcr.io/syntax3rror404/helm-charts/minecraft --version <version> -n minecraft --create-namespace --set minecraft.eulaAccepted=true -f myvalues.yaml
+```
+
 ## Quick Start
 
 ```bash
-# Add & install (from local chart)
-helm install my-minecraft ./minecraft \
-  --namespace minecraft \
-  --create-namespace \
-  --set minecraft.eulaAccepted=true
-
 # Watch the pod start
 kubectl get pods -n minecraft -w
 
