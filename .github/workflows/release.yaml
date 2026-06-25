@@ -45,6 +45,7 @@ jobs:
           charts_dir: .
           pages_branch: master
           packages_with_index: true
+          skip_existing: true
 
       - name: Login to GHCR
         if: steps.release.outputs.changed_charts != '' || vars.OCI_FULL_SYNC == 'true'
