@@ -1,19 +1,32 @@
 name: Release Charts
 
-on:
+on:  # yamllint disable-line rule:truthy
   push:
     branches:
       - master
 
 jobs:
   release:
+    permissions:
+      contents: write
+      packages: write
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - name: Checkout
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      - uses: helm/chart-releaser-action@v1.7.0
+      - name: Configure Git
+        run: |
+          git config user.name "$GITHUB_ACTOR"
+          git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
+
+      - name: Install Helm
+        uses: azure/setup-helm@v4
+
+      - name: Run chart-releaser
+        uses: helm/chart-releaser-action@v1.7.0
         id: release
         env:
           CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
@@ -24,11 +37,15 @@ jobs:
           packages_with_index: true
 
       - name: Login to GHCR
-        if: hashFiles('.cr-release-packages/*.tgz') != ''
-        run: echo "${{ secrets.GITHUB_TOKEN }}" | helm registry login ghcr.io -u ${{ github.actor }} --password-stdin
+        if: steps.release.outputs.changed_charts != ''
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Push to OCI
-        if: hashFiles('.cr-release-packages/*.tgz') != ''
+        if: steps.release.outputs.changed_charts != ''
         run: |
           for chart in .cr-release-packages/*.tgz; do
             helm push "$chart" oci://ghcr.io/${{ github.repository_owner }}/helm-charts
