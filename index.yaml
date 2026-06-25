@@ -1,0 +1,78 @@
+apiVersion: v1
+entries:
+  keycloak:
+  - apiVersion: v2
+    appVersion: 26.6.3
+    created: "2026-06-25T19:33:43.080970998Z"
+    description: A Helm chart which provides rootless keycloak with mariadb-operator
+      and multi replica support
+    digest: 3cbfadf94ddd0922d7d75d61756e3eba1acc6a3cf6e3cb5f54c82f7461ce35b2
+    home: https://github.com/Syntax3rror404/helm-charts
+    icon: https://upload.wikimedia.org/wikipedia/commons/2/29/Keycloak_Logo.png
+    keywords:
+    - keycloak
+    - mariadb-operator
+    - OIDC
+    - Identity provider
+    - IAM
+    name: keycloak
+    type: application
+    urls:
+    - keycloak-0.2.21.tgz
+    version: 0.2.21
+  mumble:
+  - apiVersion: v2
+    appVersion: v1.6.870
+    created: "2026-06-25T19:33:43.365216298Z"
+    description: A Helm chart for providing mumble server to kubernetes
+    digest: 668269197c435f4b340b634c77d5b3c131f79019ecc0fa659260d3ba8505085f
+    home: https://github.com/Syntax3rror404/helm-charts
+    icon: https://upload.wikimedia.org/wikipedia/commons/thumb/8/8f/Icons_mumble.svg/600px-Icons_mumble.svg.png
+    keywords:
+    - mumble
+    - voip
+    name: mumble
+    sources:
+    - https://github.com/mumble-voip/mumble-docker
+    type: application
+    urls:
+    - mumble-1.0.2.tgz
+    version: 1.0.2
+  snipeit:
+  - apiVersion: v2
+    appVersion: 8.6.3
+    created: "2026-06-25T19:33:43.645482432Z"
+    description: A Helm chart for providing snipe-it to kubernetes
+    digest: 9425f0bf380bbade2d53c212d312a5c368e7a7fe4b0dff5035feb3e6a6556303
+    home: https://github.com/Syntax3rror404/helm-charts
+    icon: https://github.com/snipe/snipe-it/blob/eb9cfbaed6fc830e9b114c625896a636842f2d1a/public/img/demo/snipe-logo-bug.png?raw=true
+    keywords:
+    - snipeit
+    - inventory
+    - asset management
+    name: snipeit
+    sources:
+    - https://github.com/snipe/snipe-it
+    type: application
+    urls:
+    - snipeit-2.1.19.tgz
+    version: 2.1.19
+  teamspeak:
+  - apiVersion: v2
+    appVersion: 3.13.8
+    created: "2026-06-25T19:33:43.927810613Z"
+    description: A Helm chart for providing teamspeak server to kubernetes
+    digest: ef4bbabee13c0b964a64741cb85c9069eef5ad56184ab8f8e166fe1afa807a66
+    home: https://github.com/Syntax3rror404/helm-charts
+    icon: https://upload.wikimedia.org/wikipedia/commons/e/ec/TeamSpeak_logo_renovado.png
+    keywords:
+    - teamspeak
+    - voip
+    name: teamspeak
+    sources:
+    - https://hub.docker.com/_/teamspeak/
+    type: application
+    urls:
+    - teamspeak-1.0.8.tgz
+    version: 1.0.8
+generated: "2026-06-25T19:33:43.927815993Z"
