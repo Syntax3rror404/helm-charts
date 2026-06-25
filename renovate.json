@@ -6,8 +6,17 @@
       "enabled": true
     },
     {
-      "matchManagers": ["helm-values"],
+      "matchManagers": ["helm-values", "regex"],
       "bumpVersion": "patch"
+    }
+  ],
+  "regexManagers": [
+    {
+      "fileMatch": ["Chart\\.yaml$"],
+      "matchStrings": [
+        "appVersion: \"?(?<currentValue>[^\"\\s]+)\"?\\s*# renovate: datasource=(?<datasource>\\S+) depName=(?<depName>\\S+)(\\s+extractVersion=(?<extractVersion>\\S+))?"
+      ],
+      "datasourceTemplate": "{{datasource}}"
     }
   ]
 }
