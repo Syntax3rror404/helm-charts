@@ -60,8 +60,17 @@ jobs:
         env:
           OWNER: ${{ github.repository_owner }}
         run: |
+          REGISTRY="oci://ghcr.io/${OWNER,,}/helm-charts"
           for tgz in .cr-release-packages/*.tgz; do
-            helm push "$tgz" "oci://ghcr.io/${OWNER,,}/helm-charts"
+            filename=$(basename "$tgz" .tgz)
+            chart_name=$(echo "$filename" | sed 's/-[0-9].*//')
+            chart_version=$(echo "$filename" | sed 's/.*-\([0-9].*\)/\1/')
+            if helm show chart "${REGISTRY}/${chart_name}" --version "$chart_version" &>/dev/null; then
+              echo "Skip ${chart_name}:${chart_version} (already in registry)"
+              continue
+            fi
+            echo "Pushing ${chart_name}:${chart_version}"
+            helm push "$tgz" "${REGISTRY}"
           done
 
       - name: Push to OCI (full sync)
