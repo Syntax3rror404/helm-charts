@@ -7,7 +7,7 @@ icon: https://upload.wikimedia.org/wikipedia/commons/e/ec/TeamSpeak_logo_renovad
 
 type: application
 version: 1.0.8
-appVersion: 3.13.8
+appVersion: "3.13.8" # renovate: datasource=docker depName=docker.io/teamspeak
 
 keywords:
   - teamspeak

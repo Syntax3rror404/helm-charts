@@ -7,7 +7,7 @@ icon: https://upload.wikimedia.org/wikipedia/commons/thumb/8/8f/Icons_mumble.svg
 
 type: application
 version: 1.0.2
-appVersion: "v1.6.870"
+appVersion: "v1.6.870" # renovate: datasource=docker depName=ghcr.io/mumble-voip/mumble-server
 
 keywords:
   - mumble

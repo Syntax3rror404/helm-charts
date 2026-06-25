@@ -7,7 +7,7 @@ icon: https://github.com/snipe/snipe-it/blob/eb9cfbaed6fc830e9b114c625896a636842
 
 type: application
 version: 2.1.19
-appVersion: "8.6.3"
+appVersion: "8.6.3" # renovate: datasource=docker depName=docker.io/snipe/snipe-it extractVersion=^v(?<version>\d+\.\d+\.\d+)
 
 keywords:
   - snipeit
