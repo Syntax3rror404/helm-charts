@@ -1,0 +1,22 @@
+apiVersion: v1
+entries:
+  snipeit:
+  - apiVersion: v2
+    appVersion: 8.6.3
+    created: "2026-06-25T19:08:26.953799577Z"
+    description: A Helm chart for providing snipe-it to kubernetes
+    digest: 8c01b8e8338d88b2968b5381555fa0eea81623243e5f670253032e8afd6f297c
+    home: https://github.com/Syntax3rror404/helm-charts
+    icon: https://github.com/snipe/snipe-it/blob/eb9cfbaed6fc830e9b114c625896a636842f2d1a/public/img/demo/snipe-logo-bug.png?raw=true
+    keywords:
+    - snipeit
+    - inventory
+    - asset management
+    name: snipeit
+    sources:
+    - https://github.com/snipe/snipe-it
+    type: application
+    urls:
+    - snipeit-2.1.19.tgz
+    version: 2.1.19
+generated: "2026-06-25T19:08:26.953804746Z"
