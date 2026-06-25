@@ -44,17 +44,27 @@ jobs:
         with:
           charts_dir: .
           pages_branch: master
-          pages_index_path: charts/index.yaml
           packages_with_index: true
 
       - name: Login to GHCR
+        if: steps.release.outputs.changed_charts != '' || vars.OCI_FULL_SYNC == 'true'
         uses: docker/login-action@v4
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Push to OCI
+      - name: Push to OCI (new charts only)
+        if: steps.release.outputs.changed_charts != '' && vars.OCI_FULL_SYNC != 'true'
+        env:
+          OWNER: ${{ github.repository_owner }}
+        run: |
+          for tgz in .cr-release-packages/*.tgz; do
+            helm push "$tgz" "oci://ghcr.io/${OWNER,,}/helm-charts"
+          done
+
+      - name: Push to OCI (full sync)
+        if: vars.OCI_FULL_SYNC == 'true'
         env:
           OWNER: ${{ github.repository_owner }}
         run: |
