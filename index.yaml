@@ -3,6 +3,25 @@ entries:
   keycloak:
   - apiVersion: v2
     appVersion: 26.6.3
+    created: "2026-06-25T21:21:18.311421979Z"
+    description: A Helm chart which provides rootless keycloak with mariadb-operator
+      and multi replica support
+    digest: 2634e0fbfad0a84a5cde73e744aea326a7598ea1d426599aabad9556bd719e71
+    home: https://github.com/Syntax3rror404/helm-charts
+    icon: https://upload.wikimedia.org/wikipedia/commons/2/29/Keycloak_Logo.png
+    keywords:
+    - keycloak
+    - mariadb-operator
+    - OIDC
+    - Identity provider
+    - IAM
+    name: keycloak
+    type: application
+    urls:
+    - keycloak-0.2.22.tgz
+    version: 0.2.22
+  - apiVersion: v2
+    appVersion: 26.6.3
     created: "2026-06-25T19:33:43.080970998Z"
     description: A Helm chart which provides rootless keycloak with mariadb-operator
       and multi replica support
@@ -23,6 +42,23 @@ entries:
   minecraft:
   - apiVersion: v2
     appVersion: 1.21.1
+    created: "2026-06-25T21:21:18.458040563Z"
+    description: Minecraft Java neoforge (modded) and vanilla server with autoupdate
+      and installation support
+    digest: 28ae01401c2c6f8ff1b7e9ced313b7269dc91391f9766f06fe4c5aeb93359d02
+    keywords:
+    - minecraft
+    - java
+    - game-server
+    - modded
+    - neoforge
+    name: minecraft
+    type: application
+    urls:
+    - minecraft-1.2.15.tgz
+    version: 1.2.15
+  - apiVersion: v2
+    appVersion: 1.21.1
     created: "2026-06-25T21:17:38.601622769Z"
     description: Minecraft Java neoforge (modded) and vanilla server with autoupdate
       and installation support
@@ -41,6 +77,23 @@ entries:
   mumble:
   - apiVersion: v2
     appVersion: v1.6.870
+    created: "2026-06-25T21:21:18.657679725Z"
+    description: A Helm chart for providing mumble server to kubernetes
+    digest: 276994d36a3c672053a0528fa09c600607bf2d5e46683286c0bd42c921b28900
+    home: https://github.com/Syntax3rror404/helm-charts
+    icon: https://upload.wikimedia.org/wikipedia/commons/thumb/8/8f/Icons_mumble.svg/600px-Icons_mumble.svg.png
+    keywords:
+    - mumble
+    - voip
+    name: mumble
+    sources:
+    - https://github.com/mumble-voip/mumble-docker
+    type: application
+    urls:
+    - mumble-1.0.3.tgz
+    version: 1.0.3
+  - apiVersion: v2
+    appVersion: v1.6.870
     created: "2026-06-25T19:33:43.365216298Z"
     description: A Helm chart for providing mumble server to kubernetes
     digest: 668269197c435f4b340b634c77d5b3c131f79019ecc0fa659260d3ba8505085f
@@ -57,6 +110,24 @@ entries:
     - mumble-1.0.2.tgz
     version: 1.0.2
   snipeit:
+  - apiVersion: v2
+    appVersion: 8.6.3
+    created: "2026-06-25T21:21:18.802124147Z"
+    description: A Helm chart for providing snipe-it to kubernetes
+    digest: 77674a1cd47e5f29c30d6ac81941b2357a19fafb0f02e44b1413cb67383b2c47
+    home: https://github.com/Syntax3rror404/helm-charts
+    icon: https://github.com/snipe/snipe-it/blob/eb9cfbaed6fc830e9b114c625896a636842f2d1a/public/img/demo/snipe-logo-bug.png?raw=true
+    keywords:
+    - snipeit
+    - inventory
+    - asset management
+    name: snipeit
+    sources:
+    - https://github.com/snipe/snipe-it
+    type: application
+    urls:
+    - snipeit-2.1.20.tgz
+    version: 2.1.20
   - apiVersion: v2
     appVersion: 8.6.3
     created: "2026-06-25T19:33:43.645482432Z"
@@ -78,6 +149,23 @@ entries:
   teamspeak:
   - apiVersion: v2
     appVersion: 3.13.8
+    created: "2026-06-25T21:21:18.9601953Z"
+    description: A Helm chart for providing teamspeak server to kubernetes
+    digest: aa804cc9d080be78146264ef051bf335272fdeef09df66d7bf559523ed8eacff
+    home: https://github.com/Syntax3rror404/helm-charts
+    icon: https://upload.wikimedia.org/wikipedia/commons/e/ec/TeamSpeak_logo_renovado.png
+    keywords:
+    - teamspeak
+    - voip
+    name: teamspeak
+    sources:
+    - https://hub.docker.com/_/teamspeak/
+    type: application
+    urls:
+    - teamspeak-1.0.9.tgz
+    version: 1.0.9
+  - apiVersion: v2
+    appVersion: 3.13.8
     created: "2026-06-25T19:33:43.927810613Z"
     description: A Helm chart for providing teamspeak server to kubernetes
     digest: ef4bbabee13c0b964a64741cb85c9069eef5ad56184ab8f8e166fe1afa807a66
@@ -93,4 +181,4 @@ entries:
     urls:
     - teamspeak-1.0.8.tgz
     version: 1.0.8
-generated: "2026-06-25T21:17:39.450856857Z"
+generated: "2026-06-25T21:21:18.960212406Z"
