@@ -6,7 +6,7 @@ home: https://github.com/Syntax3rror404/helm-charts
 icon: https://upload.wikimedia.org/wikipedia/commons/thumb/8/8f/Icons_mumble.svg/600px-Icons_mumble.svg.png
 
 type: application
-version: 1.0.2
+version: 1.0.3
 appVersion: "v1.6.870" # renovate: datasource=docker depName=ghcr.io/mumble-voip/mumble-server
 
 keywords:
