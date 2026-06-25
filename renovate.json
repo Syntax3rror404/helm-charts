@@ -4,6 +4,10 @@
     {
       "matchUpdateTypes": ["major"],
       "enabled": true
+    },
+    {
+      "matchManagers": ["helm-values"],
+      "bumpVersion": "patch"
     }
   ]
 }
