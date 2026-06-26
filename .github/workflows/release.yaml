@@ -36,19 +36,38 @@ jobs:
             helm lint "$chart_dir"
           done
 
-      - name: Run chart-releaser
-        uses: helm/chart-releaser-action@v1.7.0
-        id: release
-        env:
-          CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
-        with:
-          charts_dir: .
-          pages_branch: master
-          skip_existing: true
-          config: .cr.yaml
+      - name: Package new chart versions
+        id: package
+        run: |
+          new_packages=()
+          new_tgz=()
+          for chart_dir in */; do
+            [ -f "${chart_dir}Chart.yaml" ] || continue
+            chart_name=$(grep '^name:' "${chart_dir}Chart.yaml" | awk '{print $2}')
+            chart_version=$(grep '^version:' "${chart_dir}Chart.yaml" | awk '{print $2}')
+            tgz="charts/${chart_name}-${chart_version}.tgz"
+            if [ ! -f "$tgz" ]; then
+              echo "Packaging ${chart_name}-${chart_version}..."
+              helm package "$chart_dir" -d charts/
+              new_packages+=("${chart_name}-${chart_version}")
+              new_tgz+=("$tgz")
+            fi
+          done
+
+          if [ ${#new_packages[@]} -eq 0 ]; then
+            echo "No new chart versions."
+            echo "changed=" >> "$GITHUB_OUTPUT"
+          else
+            helm repo index charts/ --merge charts/index.yaml
+            git add charts/
+            git commit -m "Publishing chart packages: $(IFS=', '; echo "${new_packages[*]}")"
+            git push
+            echo "changed=$(IFS=','; echo "${new_packages[*]}")" >> "$GITHUB_OUTPUT"
+            echo "new_tgz=$(IFS=','; echo "${new_tgz[*]}")" >> "$GITHUB_OUTPUT"
+          fi
 
       - name: Login to GHCR
-        if: steps.release.outputs.changed_charts != '' || vars.OCI_FULL_SYNC == 'true'
+        if: steps.package.outputs.changed != '' || vars.OCI_FULL_SYNC == 'true'
         uses: docker/login-action@v4
         with:
           registry: ghcr.io
@@ -56,12 +75,12 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Push to OCI (new charts only)
-        if: steps.release.outputs.changed_charts != '' && vars.OCI_FULL_SYNC != 'true'
+        if: steps.package.outputs.changed != '' && vars.OCI_FULL_SYNC != 'true'
         env:
           OWNER: ${{ github.repository_owner }}
         run: |
           REGISTRY="oci://ghcr.io/${OWNER,,}/helm-charts"
-          for tgz in .cr-release-packages/*.tgz; do
+          for tgz in $(echo "${{ steps.package.outputs.new_tgz }}" | tr ',' ' '); do
             filename=$(basename "$tgz" .tgz)
             chart_name=$(echo "$filename" | sed 's/-[0-9].*//')
             chart_version=$(echo "$filename" | sed 's/.*-\([0-9].*\)/\1/')
