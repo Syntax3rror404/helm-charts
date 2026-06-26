@@ -16,4 +16,4 @@ keywords:
   - Identity provider
   - IAM
 
-appVersion: "26.6.3" # renovate: datasource=docker depName=quay.io/keycloak/keycloak
+appVersion: "26.6.4" # renovate: datasource=docker depName=quay.io/keycloak/keycloak
