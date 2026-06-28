@@ -76,15 +76,12 @@ jobs:
             tgz="charts/${package}.tgz"
             chart_name=$(echo "$package" | sed 's/-[0-9].*//')
             chart_version=$(echo "$package" | sed 's/.*-\([0-9].*\)/\1/')
-            notes="## OCI
+            gh release create "${package}" "${tgz}" \
+              --title "${package}" \
+              --notes "## OCI
 \`\`\`
 helm install ${chart_name} oci://ghcr.io/${OWNER,,}/helm-charts/${chart_name} --version ${chart_version}
 \`\`\`"
-            gh release create "${package}" "${tgz}" \
-              --title "${package}" \
-              --generate-notes \
-              --notes-start-tag "$(git describe --tags --abbrev=0 "${package}^" 2>/dev/null || git rev-list --max-parents=0 HEAD)" \
-              --notes-file <(echo "${notes}"; echo; gh api "repos/${{ github.repository }}/releases/generate-notes" -f tag_name="${package}" --jq '.body' 2>/dev/null || true)
           done
 
       - name: Login to GHCR
