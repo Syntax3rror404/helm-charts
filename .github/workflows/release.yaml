@@ -76,12 +76,11 @@ jobs:
             tgz="charts/${package}.tgz"
             chart_name=$(echo "$package" | sed 's/-[0-9].*//')
             chart_version=$(echo "$package" | sed 's/.*-\([0-9].*\)/\1/')
+            printf '## OCI\n```\nhelm install %s oci://ghcr.io/%s/helm-charts/%s --version %s\n```\n' \
+              "${chart_name}" "${OWNER,,}" "${chart_name}" "${chart_version}" > /tmp/notes.md
             gh release create "${package}" "${tgz}" \
               --title "${package}" \
-              --notes "## OCI
-\`\`\`
-helm install ${chart_name} oci://ghcr.io/${OWNER,,}/helm-charts/${chart_name} --version ${chart_version}
-\`\`\`"
+              --notes-file /tmp/notes.md
           done
 
       - name: Login to GHCR
