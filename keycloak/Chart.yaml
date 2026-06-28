@@ -7,7 +7,7 @@ icon: https://upload.wikimedia.org/wikipedia/commons/2/29/Keycloak_Logo.png
 
 type: application
 
-version: 0.2.23
+version: 0.2.24
 
 keywords:
   - keycloak
