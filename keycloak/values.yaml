@@ -71,6 +71,14 @@ service:
   port: 8080
 
 # This block is for setting up the ingress for more information can be found here: https://kubernetes.io/docs/concepts/services-networking/ingress/
+#
+# The default paths are an allow-list that intentionally EXCLUDES the admin
+# surface (`/admin`, i.e. the admin console and admin REST API incl. the master
+# realm). Anything not listed here is not routed and returns 404 on the public
+# host(s). Expose the admin console via the dedicated `adminIngress` below.
+#
+# No hostname is pinned in Keycloak, so the same instance can be served on
+# multiple public domains in parallel.
 ingress:
   enabled: false
   className: ""
@@ -79,23 +87,81 @@ ingress:
     # kubernetes.io/tls-acme: "true"
   hosts:
     - host: chart-example.local
+      # Minimal set of public endpoints recommended by Keycloak for a reverse
+      # proxy (https://www.keycloak.org/server/reverseproxy). This serves the
+      # login UI + OIDC while leaving "/" (welcome page) and "/admin" (admin
+      # console + REST, incl. the master realm) unrouted -> 404 on public hosts.
+      # Add "/admin" here only if you deliberately want it public.
       paths:
-        - path: /
-          pathType: ImplementationSpecific
+        - path: /realms
+          pathType: Prefix
+        - path: /resources
+          pathType: Prefix
+        - path: /.well-known
+          pathType: Prefix
   tls: []
     # - secretName: chart-example-tls
     #   hosts:
     #     - chart-example.local
 
+# Dedicated ingress that DOES expose the admin surface (`/admin`, admin console
+# and admin REST incl. the master realm). Point it at an internal-only host so
+# the admin console is separated from the public `ingress` above, and lock it
+# down further (internal-only ingress class, IP allow-lists, separate TLS, ...).
+adminIngress:
+  enabled: false
+  className: ""
+  annotations: {}
+    # Example: restrict access to internal networks (nginx)
+    # nginx.ingress.kubernetes.io/whitelist-source-range: "10.0.0.0/8"
+  hosts:
+    - host: keycloak-admin.example.com
+      # "/" serves the whole instance (incl. /admin) on this internal host.
+      paths:
+        - path: /
+          pathType: Prefix
+  tls: []
+    # - secretName: keycloak-admin-tls
+    #   hosts:
+    #     - keycloak-admin.example.com
+
+# Public HTTPRoute. Like `ingress` above, the default matches are an allow-list
+# that EXCLUDES the admin surface (`/admin`). Gateway API routes by longest
+# matching prefix, so listing only the public prefixes keeps `/admin` unrouted
+# on the public host(s). Expose the admin console via `adminHttpRoute` below.
 httpRoute:
   enabled: false
   annotations: {}
   hostnames:
-    - snipeit.example.com
+    - keycloak.example.com
   parentRefs:
     - group: gateway.networking.k8s.io
       kind: Gateway
       name: envoy-gateway-external
+      namespace: envoy-gateway-system
+  matches:
+    - path:
+        type: PathPrefix
+        value: /realms
+    - path:
+        type: PathPrefix
+        value: /resources
+    - path:
+        type: PathPrefix
+        value: /.well-known
+
+# Dedicated HTTPRoute that DOES expose the admin surface (`/admin`, admin
+# console and admin REST incl. the master realm). Point `parentRefs` at an
+# internal Gateway so the admin surface stays separated from the public route.
+adminHttpRoute:
+  enabled: false
+  annotations: {}
+  hostnames:
+    - keycloak-admin.example.com
+  parentRefs:
+    - group: gateway.networking.k8s.io
+      kind: Gateway
+      name: envoy-gateway-internal
       namespace: envoy-gateway-system
   matches:
     - path:
@@ -179,6 +245,9 @@ keycloak:
 
   # Hostname configuration
   hostname:
+    # Keep strict disabled so Keycloak derives the hostname from the incoming
+    # request. This lets you serve the same instance on multiple domains in
+    # parallel without pinning a fixed KC_HOSTNAME.
     strict: false
 
   # Relative http path

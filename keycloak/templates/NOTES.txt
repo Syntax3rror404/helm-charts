@@ -20,3 +20,23 @@
   echo "Visit http://127.0.0.1:8080 to use your application"
   kubectl --namespace {{ .Release.Namespace }} port-forward $POD_NAME 8080:$CONTAINER_PORT
 {{- end }}
+{{- if .Values.adminIngress.enabled }}
+
+2. The admin console (incl. the master realm) is served separately on:
+{{- range $host := .Values.adminIngress.hosts }}
+  http{{ if $.Values.adminIngress.tls }}s{{ end }}://{{ $host.host }}/admin/
+{{- end }}
+{{- end }}
+{{- if .Values.adminHttpRoute.enabled }}
+
+3. The admin console (incl. the master realm) is served separately on:
+{{- range $host := .Values.adminHttpRoute.hostnames }}
+  https://{{ $host }}/admin/
+{{- end }}
+{{- end }}
+
+NOTE: The public ingress/httpRoute only exposes the paths you list under
+`ingress.hosts[].paths` / `httpRoute.matches`. The defaults intentionally omit
+`/admin`, so the admin console and master realm are not reachable on the public
+host(s). If neither `adminIngress` nor `adminHttpRoute` is enabled, reach the
+admin console via `kubectl port-forward`.

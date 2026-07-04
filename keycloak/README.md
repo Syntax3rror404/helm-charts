@@ -98,7 +98,7 @@ kubectl delete ns keycloak
 | Parameter | Default | Description |
 |-----------|---------|-------------|
 | `keycloak.proxy.headers` | `xforwarded` | Proxy headers mode (xforwarded, forwarded) |
-| `keycloak.hostname.strict` | `false` | Enable strict hostname verification |
+| `keycloak.hostname.strict` | `false` | Enable strict hostname verification. Keep `false` to serve the same instance on multiple domains in parallel |
 | `keycloak.cache.type` | `ispn` | Cache type (ispn for clustering, local for single node) |
 | `keycloak.args` | `["start"]` | Keycloak args list |
 | `keycloak.httpPath` | `"/"` | Keycloak used http path |
@@ -168,15 +168,136 @@ After the installation of the theme you can enable the theme inside the realm se
 | `ingress.hosts` | See values.yaml | Ingress hosts configuration |
 | `ingress.tls` | `[]` | TLS configuration |
 
+### Admin Ingress Configuration
+
+Dedicated ingress for the admin console / admin REST endpoints (incl. the master realm). See [Separating the admin console / master realm](#separating-the-admin-console--master-realm).
+
+| Parameter | Default | Description |
+|-----------|---------|-------------|
+| `adminIngress.enabled` | `false` | Enable the dedicated admin Ingress |
+| `adminIngress.className` | `""` | Ingress class name (e.g. an internal-only class) |
+| `adminIngress.annotations` | `{}` | Ingress annotations (e.g. IP allow-lists) |
+| `adminIngress.hosts` | See values.yaml | Admin ingress hosts configuration |
+| `adminIngress.tls` | `[]` | TLS configuration |
+
 ### Gateway API Configuration
 
 | Parameter | Default | Description |
 |-----------|---------|-------------|
 | `httpRoute.enabled` | `false` | Enable GW API httpRoute |
 | `httpRoute.annotations` | `{}` | http Route annotations |
-| `httpRoute.hostnames` | `{hostnames: [snipeit.example.com]}` | Hostname |
+| `httpRoute.hostnames` | `[keycloak.example.com]` | Public hostname(s) — multiple domains supported |
 | `httpRoute.parentRefs` | See values.yaml | httproute parent ref |
 | `httpRoute.matches` | `See values.yaml` | Match configuration |
+
+### Admin Gateway API Configuration
+
+Dedicated HTTPRoute for the admin console / admin REST endpoints (incl. the master realm). See [Separating the admin console / master realm](#separating-the-admin-console--master-realm).
+
+| Parameter | Default | Description |
+|-----------|---------|-------------|
+| `adminHttpRoute.enabled` | `false` | Enable the dedicated admin HTTPRoute |
+| `adminHttpRoute.annotations` | `{}` | http Route annotations |
+| `adminHttpRoute.hostnames` | `{hostnames: [keycloak-admin.example.com]}` | Admin hostname |
+| `adminHttpRoute.parentRefs` | See values.yaml | httproute parent ref (e.g. an internal Gateway) |
+| `adminHttpRoute.matches` | See values.yaml | Match configuration |
+
+## Separating the admin console / master realm
+
+By default Keycloak serves the admin console (and therefore the `master` realm) on the same path space as the public authentication endpoints, so exposing your public host also exposes the admin surface. This chart separates them **at the path level** instead of pinning a fixed hostname — which means no `KC_HOSTNAME` is baked in and the same instance can be served on **multiple public domains in parallel**.
+
+How it works:
+
+- The **public** `ingress` / `httpRoute` only routes an allow-list of paths. The defaults are the exact set [Keycloak recommends exposing behind a reverse proxy](https://www.keycloak.org/server/reverseproxy#_exposed_path_recommendations): `/realms`, `/resources` and `/.well-known`. That is everything a login/OIDC flow needs (auth endpoints + the login UI's assets + authorization-server metadata). Keycloak explicitly recommends **not** exposing `/` (welcome page) and `/admin` (admin console + admin REST, incl. the master realm) — neither is in the list, so both return `404` on the public host(s).
+- The dedicated **`adminIngress`** / **`adminHttpRoute`** route `/` (the whole instance, including `/admin`) on a separate, internal-only host that you can lock down with an internal ingress class / Gateway, an IP allow-list, or a separate TLS certificate.
+
+To expose the admin console on the public host as well, simply add `/admin` to `ingress.hosts[].paths` / `httpRoute.matches`.
+
+> **Note:** `/metrics` and `/health` are not in the allow-list either, but this chart already serves them on the separate management port `9000` (not on the `8080` service that the ingress points at), so they are never reachable through the public ingress regardless.
+
+### Example: public + separate admin ingress (nginx, internal-only)
+
+```yaml
+# Public ingress: multiple domains, admin surface excluded via paths
+ingress:
+  enabled: true
+  className: nginx
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+  hosts:
+    - host: auth.mycompany.com
+      paths: &publicPaths
+        - path: /realms
+          pathType: Prefix
+        - path: /resources
+          pathType: Prefix
+        - path: /.well-known
+          pathType: Prefix
+    - host: login.othertenant.com   # parallel domain, same instance
+      paths: *publicPaths
+  tls:
+    - secretName: keycloak-tls
+      hosts:
+        - auth.mycompany.com
+        - login.othertenant.com
+
+# Admin ingress: internal host, serves the whole instance incl. /admin
+adminIngress:
+  enabled: true
+  className: nginx
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    nginx.ingress.kubernetes.io/whitelist-source-range: "10.0.0.0/8"
+  hosts:
+    - host: keycloak-admin.internal.mycompany.com
+      paths:
+        - path: /
+          pathType: Prefix
+  tls:
+    - secretName: keycloak-admin-tls
+      hosts:
+        - keycloak-admin.internal.mycompany.com
+```
+
+### Example: public + separate admin HTTPRoute (Gateway API)
+
+```yaml
+httpRoute:
+  enabled: true
+  hostnames:
+    - auth.mycompany.com
+    - login.othertenant.com   # parallel domain, same instance
+  parentRefs:
+    - group: gateway.networking.k8s.io
+      kind: Gateway
+      name: envoy-gateway-external
+      namespace: envoy-gateway-system
+  matches:
+    - path: { type: PathPrefix, value: /realms }
+    - path: { type: PathPrefix, value: /resources }
+    - path: { type: PathPrefix, value: /.well-known }
+
+adminHttpRoute:
+  enabled: true
+  hostnames:
+    - keycloak-admin.internal.mycompany.com
+  parentRefs:
+    - group: gateway.networking.k8s.io
+      kind: Gateway
+      name: envoy-gateway-internal
+      namespace: envoy-gateway-system
+  matches:
+    - path: { type: PathPrefix, value: / }
+```
+
+> **Note on `/realms/master`:** The path allow-list blocks the admin console (`/admin`). The master realm's own OIDC endpoints live under `/realms/master`, which is a sub-path of the allow-listed `/realms` — plain Ingress/Gateway prefix matching can't exclude a single sub-path, so those endpoints stay reachable on the public host. This is low risk once `/admin` is blocked (no admin console to drive them, and Keycloak's brute-force protection still applies). If you need to block them too, use a controller-specific deny rule, e.g. for nginx:
+>
+> ```yaml
+> ingress:
+>   annotations:
+>     nginx.ingress.kubernetes.io/server-snippet: |
+>       location ~* "^/realms/master" { return 404; }
+> ```
 
 ### Health Probes
 
