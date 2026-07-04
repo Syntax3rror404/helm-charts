@@ -224,7 +224,7 @@ keycloak:
   # JVM options
   javaOptsHeap: >-
     -XX:InitialRAMPercentage=10.0
-    -XX:MaxRAMPercentage=75.0
+    -XX:MaxRAMPercentage=70.0
 
   javaOptsAppend: >-
     -XX:+UseG1GC
@@ -279,6 +279,13 @@ readinessProbe:
     port: 9000
   periodSeconds: 10
   failureThreshold: 3
+
+# Additional container environment variables, appended to the ones the chart
+# already sets. Useful for JVM/runtime tuning that is not a JVM flag, e.g.
+# limiting glibc malloc arenas to curb container RSS fragmentation:
+#   - name: MALLOC_ARENA_MAX
+#     value: "2"
+extraEnv: []
 
 # Additional volumes on the output Deployment definition.
 volumes: []

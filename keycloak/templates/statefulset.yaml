@@ -120,6 +120,11 @@ spec:
             - name: KC_HTTP_RELATIVE_PATH
               value: "{{ .Values.keycloak.httpPath }}"
 
+            {{- with .Values.extraEnv }}
+            # Additional environment variables (e.g. MALLOC_ARENA_MAX)
+            {{- toYaml . | nindent 12 }}
+            {{- end }}
+
           ports:
             - name: http
               containerPort: {{ .Values.service.port }}
