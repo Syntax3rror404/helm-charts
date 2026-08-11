@@ -111,7 +111,7 @@ snipeit:
   image:
     repository: docker.io/snipe/snipe-it
     pullPolicy: IfNotPresent
-    tag: "v8.6.3-alpine"
+    tag: "v8.7.0-alpine"
 
 imagePullSecrets: []
 nameOverride: ""
