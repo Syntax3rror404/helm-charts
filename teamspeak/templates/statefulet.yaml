@@ -42,7 +42,7 @@ spec:
             - name: TS3SERVER_DB_SQLCREATEPATH
               value: "create_mariadb"
             - name: TS3SERVER_DB_HOST
-              value: "{{ .Values.mariadbOperator.useExisting.mariaDbRef }}-internal.{{ .Values.mariadbOperator.useExisting.namespace }}.svc"
+              value: "{{ .Values.mariadbOperator.useExisting.mariaDbRef }}.{{ .Values.mariadbOperator.useExisting.namespace }}.svc"
             - name: TS3SERVER_DB_USER
               value: "{{ .Values.mariadbOperator.username }}"
             - name: TS3SERVER_DB_PASSWORD
