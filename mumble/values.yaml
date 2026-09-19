@@ -12,6 +12,9 @@ customLabels: {}
 service:
   enabled: true
   type: ClusterIP
+  # Only applied when type is LoadBalancer or NodePort.
+  # Local preserves the client source IP; Cluster spreads traffic across all nodes.
+  externalTrafficPolicy: Local
   externalIPs: []
   annotations: {}
   ports:

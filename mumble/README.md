@@ -67,6 +67,7 @@ kubectl delete ns mumble
 | `image.pullPolicy` | `IfNotPresent` | Image pull policy |
 | `service.enabled` | `true` | Enable the service |
 | `service.type` | `ClusterIP` | Kubernetes service type |
+| `service.externalTrafficPolicy` | `Local` | Traffic policy for LoadBalancer/NodePort services (`Local` preserves the client source IP) |
 | `service.externalIPs` | `[]` | External IPs for the service |
 | `service.annotations` | `{}` | Additional annotations for the service |
 | `service.ports` | `[{ name: mumble-tcp, port: 64738, targetPort: 64738, protocol: TCP },{ name: mumble-udp, port: 64738, targetPort: 64738, protocol: UDP }]` | TCP and UDP ports for the service |

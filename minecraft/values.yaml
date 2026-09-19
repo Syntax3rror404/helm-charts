@@ -55,6 +55,9 @@ neoforge:
 service:
   type: LoadBalancer
   port: 25565
+  # Only applied when type is LoadBalancer or NodePort.
+  # Local preserves the client source IP; Cluster spreads traffic across all nodes.
+  externalTrafficPolicy: Local
   # Optionally set a fixed NodePort (only relevant if type=NodePort)
   # nodePort: 32565
   annotations: {}

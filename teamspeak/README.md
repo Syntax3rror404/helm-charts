@@ -108,6 +108,7 @@ kubectl delete ns teamspeak
 | Parameter | Default | Description |
 |-----------|---------|-------------|
 | `service.type` | `ClusterIP` | Kubernetes service type |
+| `service.externalTrafficPolicy` | `Local` | Traffic policy for LoadBalancer/NodePort services (`Local` preserves the client source IP) |
 | `service.externalIPs` | `[]` | External IPs for the service |
 | `headlessService.type` | `ClusterIP` | Headless service type |
 | `headlessService.externalIPs` | `[]` | External IPs for headless service |
