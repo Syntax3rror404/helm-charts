@@ -149,6 +149,14 @@ httpRoute:
     - path:
         type: PathPrefix
         value: /.well-known
+  # Redirects the bare host root (`/`) to a friendlier landing page, e.g. the
+  # realm account console (`/realms/<realm>/account/`). Matched with `Exact`,
+  # so only the root path triggers it — all other paths keep following the
+  # regular matches above.
+  rootRedirect:
+    enabled: false
+    path: /
+    statusCode: 302
 
 # Dedicated HTTPRoute that DOES expose the admin surface (`/admin`, admin
 # console and admin REST incl. the master realm). Point `parentRefs` at an

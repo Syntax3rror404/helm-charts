@@ -20,6 +20,26 @@ spec:
     {{- toYaml . | nindent 4 }}
   {{- end }}
   rules:
+    {{- with .Values.httpRoute.rootRedirect }}
+    {{- if .enabled }}
+    # Redirects the bare host root (`/`) to a friendlier landing page, e.g.
+    # the realm account console. Matched with `Exact` so only the root path
+    # triggers it — all other paths keep following the regular matches below.
+    - matches:
+        - path:
+            type: Exact
+            value: /
+      filters:
+        - type: RequestRedirect
+          requestRedirect:
+            path:
+              type: ReplaceFullPath
+              replaceFullPath: {{ .path | quote }}
+            {{- with .statusCode }}
+            statusCode: {{ . }}
+            {{- end }}
+    {{- end }}
+    {{- end }}
     - backendRefs:
         - group: ''
           kind: Service
