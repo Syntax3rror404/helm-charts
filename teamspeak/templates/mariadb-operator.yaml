@@ -87,6 +87,6 @@ spec:
   grantOption: true
   host: "%"
   cleanupPolicy: Delete
-  requeueInterval: 10h
+  requeueInterval: {{ .Values.mariadbOperator.grantRequeueInterval }}
   retryInterval: 30s
 {{- end }}

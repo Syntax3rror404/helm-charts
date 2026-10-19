@@ -52,6 +52,8 @@ mariadbOperator:
   username: teamspeak
   # Password created by this chart
   password: teamspeaksecret
+  # How often the operator re-applies the grant; spec changes apply immediately
+  grantRequeueInterval: 168h
   # storageClass for mariadb (not relevant if mariadbOperator.useExisting is used)
   storageClass: longhorn
   # use a existing mariadb managed by operator and will not create a new mariadb instance for example if you have a one big mariadb or galera
