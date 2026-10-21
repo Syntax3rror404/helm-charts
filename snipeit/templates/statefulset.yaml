@@ -19,9 +19,14 @@ spec:
     {{- end }}
   template:
     metadata:
-      {{- with .Values.podAnnotations }}
+      {{- if or .Values.podAnnotations .Values.snipeit.entrypointOverride.enabled }}
       annotations:
+        {{- if .Values.snipeit.entrypointOverride.enabled }}
+        checksum/entrypoint: {{ (include (print $.Template.BasePath "/entrypoint-override.yaml") . | fromYaml).data | toJson | sha256sum }}
+        {{- end }}
+        {{- with .Values.podAnnotations }}
         {{- toYaml . | nindent 8 }}
+        {{- end }}
       {{- end }}
       labels:
         {{- include "snipeit.labels" . | nindent 8 }}
@@ -93,6 +98,11 @@ spec:
               value: "{{ .Values.snipeit.config.timezone }}"
             - name: APP_LOCALE
               value: "{{ .Values.snipeit.config.locale }}"
+            {{- if .Values.snipeit.entrypointOverride.enabled }}
+            # Leading ":" keeps the image's own conf.d
+            - name: PHP_INI_SCAN_DIR
+              value: ":/tmp/php-conf.d:/custom-startup"
+            {{- end }}
             {{- with .Values.extraEnv }}
             {{- toYaml . | nindent 12 }}
             {{- end }}

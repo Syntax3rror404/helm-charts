@@ -98,6 +98,10 @@ externalDB:
 snipeit:
   entrypointOverride:
     enabled: true
+    # Extra php.ini directives, loaded after image defaults
+    phpIni: {}
+    #  memory_limit: 256M
+    #  max_execution_time: 120
   config:
     appKey:
       name: laravel-app-key
