@@ -2,7 +2,7 @@
 teamspeak:
   image:
     repository: docker.io/teamspeak
-    tag: 3.13.8
+    tag: 3.13.9
   licenseAccept: "accept"
   ports:
     udp: 9987
