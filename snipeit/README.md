@@ -92,6 +92,27 @@ kubectl delete ns snipeit
 | `snipeit.persistence.storageClass` | `longhorn` | Storage class for PVC |
 | `replicaCount` | `1` | Number of replicas |
 
+### Service Account
+
+| Parameter | Default | Description |
+|-----------|---------|-------------|
+| `serviceAccount.create` | `false` | Create a ServiceAccount for the Snipe-IT StatefulSet. The namespace's `default` account is never created by this chart. |
+| `serviceAccount.name` | `""` | ServiceAccount to use. If empty, use the chart's full name when `create` is `true`, or the namespace's `default` account otherwise. |
+| `serviceAccount.annotations` | `{}` | Annotations on the created ServiceAccount, such as the AWS IRSA role ARN. |
+
+Set `serviceAccount.create: true` to create a dedicated account. To use an existing account in the release namespace, set `serviceAccount.name` and leave `serviceAccount.create` disabled.
+
+For AWS IAM Roles for Service Accounts (IRSA):
+
+```yaml
+serviceAccount:
+  create: true
+  annotations:
+    eks.amazonaws.com/role-arn: arn:aws:iam::123456789012:role/snipeit
+```
+
+For an existing ServiceAccount, manage its annotations outside this chart.
+
 ### Database Configuration - MariaDB Operator
 
 | Parameter | Default | Description |
